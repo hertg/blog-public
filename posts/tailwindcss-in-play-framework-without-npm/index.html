@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name=”robots” content=”noai, noimageai”>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+    <title>TailwindCSS in Play Framework - Without npm | hertig.blog</title>
+  
+
+  <link rel="shortcut icon" type="image/png" href="https://hertig.blog/favicon-128.png" />
+
+  
+    <link rel="alternate" type="application/atom+xml" title="RSS" href="https://hertig.blog/atom.xml">
+  
+
+  <meta property="og:type" content="website" />
+
+  
+    <meta property="og:url" content="https:&#x2F;&#x2F;hertig.blog&#x2F;posts&#x2F;tailwindcss-in-play-framework-without-npm&#x2F;" />
+  
+  
+  
+    
+    <meta property="og:image" content="https:&#x2F;&#x2F;hertig.blog&#x2F;processed_images&#x2F;banner.5aaa6ca66b4a898a.png">
+  
+
+  
+    
+      <meta name="description" content="A Guide on how to use and automate TailwindCSS compilation in a Play app with an sbt-web source file task. No need for npm, complicated bundlers or Javascript." />
+    
+  
+
+  <link rel="stylesheet" href="https://hertig.blog/main.css" />
+  
+  <script src="https://hertig.blog/main.js"></script>
+  
+  
+  
+  <script src="https://cdn.usefathom.com/script.js" data-site="GTKPIRBR" defer></script>
+  
+
+  
+
+  <meta name="fediverse:creator" content="@hertg@infosec.exchange" />
+
+  
+
+
+<meta name="author" content="Michael Hertig">
+
+
+
+</head>
+
+<body>
+
+  <header>
+    <nav>
+
+      <a href="https://hertig.blog/" aria-label="Home">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#home" />
+</svg>
+
+      </a>
+      
+      
+      
+        
+        
+          <a href="https:&#x2F;&#x2F;hertig.blog&#x2F;posts&#x2F;" >
+          
+              Blog
+          
+          </a>
+        
+      
+        
+        
+          <a href="https:&#x2F;&#x2F;hertig.blog&#x2F;about&#x2F;" >
+          
+              About
+          
+          </a>
+        
+      
+
+    </nav>
+    <div id="menu-actions">
+      <button class="icon-only" id="dark-mode-toggle" aria-label="Toggle light and dark mode">
+        
+<svg class="feather light-only" role="img" >
+    <title>Switch to dark mode</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#moon" />
+</svg>
+
+        
+<svg class="feather dark-only" role="img" >
+    <title>Switch to light mode</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#sun" />
+</svg>
+
+      </button>
+    </div>
+  </header>
+
+  <main>
+    
+
+<h1 class="title">
+  TailwindCSS in Play Framework - Without npm
+</h1>
+
+
+<p class="attention-grabber">
+	A Guide on how to use and automate TailwindCSS compilation in a Play app with an sbt-web source file task. No need for npm, complicated bundlers or Javascript.
+</p>
+
+
+<div id="metadata">
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Published on</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#globe" />
+</svg>
+ 
+        <time datetime="2024-08-18">August 18, 2024</time>
+    </div>
+    
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Reading time</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#book-open" />
+</svg>
+ 
+        4 minutes
+    </div>
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Authored by</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#user" />
+</svg>
+ 
+        
+        Michael Hertig
+        
+    </div>
+    
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#tag" />
+</svg>
+
+        
+            <a href="https://hertig.blog/tags/dev/" class="tag">dev</a>
+        
+            <a href="https://hertig.blog/tags/guide/" class="tag">guide</a>
+        
+            <a href="https://hertig.blog/tags/playframework/" class="tag">playframework</a>
+        
+    </div>
+    
+</div>
+
+
+    <div class="banner">
+    
+    
+        
+        <img src="https:&#x2F;&#x2F;hertig.blog&#x2F;processed_images&#x2F;banner.5aaa6ca66b4a898a.png" alt="Merge of Play Framework and TailwindCSS Logo saying Playwindcss" />
+        
+    
+    </div>
+
+
+<h2 id="introduction">Introduction</h2>
+<p>I am not a fan of the Javascript ecosystem, and I have come to the point where
+I almost always prefer solutions that work without it. Here is my issue though:
+I quite like Tailwind CSS. In my <a href="https://www.playframework.com/">Play Framework</a>
+stack I'm only using tools that <strong>do not</strong> require me to configure a complex
+javascript bundler, don't have thousands of npm dependencies, and don't need
+a dozen different build steps.</p>
+<p>Fortunately, the Tailwind CSS compiler is also available as a
+<a href="https://tailwindcss.com/blog/standalone-cli">standalone CLI</a>, so it doesn't
+have to be installed via npm. Using the CLI, we can easily integrate
+TailwindCSS into a Play Framework project by just calling the CLI as part
+of a <code>sbt-web</code> source file task.</p>
+<aside class="callout" >
+	<div class="icon">
+		<svg class="feather-inline" role="img" aria-hidden="true">
+			
+			
+			<use href="https://hertig.blog/vendor/feather-sprite.svg#link" />
+			
+		</svg>
+	</div>
+
+	
+	<div class="content">
+		You can find an example project for this guide here:
+<a href="https://codeberg.org/hertg/play-tailwindcss">https://codeberg.org/hertg/play-tailwindcss</a>
+	</div>
+</aside><h2 id="add-sbt-web">Add sbt-web</h2>
+<p>If your project doesn't already use <a href="https://github.com/sbt/sbt-web">sbt-web</a>,
+make sure to enable it.</p>
+<pre data-lang="scala" style="background-color:#191919;color:#f8f8f2;" class="language-scala "><code class="language-scala" data-lang="scala"><span style="color:#6d6d6d;">// ./build.sbt
+</span><span>
+</span><span style="color:#ff5e5e;">lazy </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">root </span><span style="color:#ff5e5e;">= </span><span>(project in file(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">.</span><span style="color:#ffffff;">&quot;</span><span>))
+</span><mark style="background-color:#3d3d3d55;"><span>  .enablePlugins(</span><span style="color:#ecfdb9;">PlayJava</span><span>, </span><span style="color:#ecfdb9;">SbtWeb</span><span>)
+</span></mark></code></pre>
+<h2 id="download-the-cli-binaries">Download the CLI binaries</h2>
+<p>Go to the <a href="https://github.com/tailwindlabs/tailwindcss/releases">latest Tailwind release</a>
+and download the pre-compiled binaries. Place the downloaded binaries in the
+root directory of your project, and make sure that the files are executable;
+for example on Linux:</p>
+<pre data-lang="sh" style="background-color:#191919;color:#f8f8f2;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#e9fdac;">chmod</span><span> +x ./tailwindcss-linux-x64
+</span></code></pre>
+<p>I'd recommend downloading the binaries for all architectures and
+operating systems where you wish your project should
+be able to build on. In this guide I only include support for Linux and
+Windows on x64, but adding support for others (e.g., arm and macos) can
+easily be added later.</p>
+<h2 id="create-helper-method-to-run-commands">Create helper method to run commands</h2>
+<p>Add a file called <code>CommandRunUtil.scala</code> to your <code>project/</code> folder.
+This will provide a simple <code>runCommand</code> method for us to use in the
+sbt source task.</p>
+<pre data-lang="scala" style="background-color:#191919;color:#f8f8f2;" class="language-scala "><code class="language-scala" data-lang="scala"><span style="color:#6d6d6d;">// ./project/CommandRunUtil.scala
+</span><span>
+</span><span style="color:#ff5e5e;">import</span><span> sbt.*
+</span><span>
+</span><span style="color:#ff5e5e;">import</span><span> java.io.IOException
+</span><span style="color:#ff5e5e;">import</span><span> scala.sys.process.Process
+</span><span>
+</span><span style="font-style:italic;color:#fbdfb5;">object</span><span style="text-decoration:underline;color:#8cdaff;"> CommandRunUtil </span><span>{
+</span><span>
+</span><span>  </span><span style="color:#ff5e5e;">lazy </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">isWindows</span><span>: </span><span style="font-style:italic;color:#fbdfb5;">Boolean </span><span style="color:#ff5e5e;">= </span><span style="color:#ecfdb9;">System</span><span>.getProperty(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">os.name</span><span style="color:#ffffff;">&quot;</span><span>).startsWith(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">Windows</span><span style="color:#ffffff;">&quot;</span><span>)
+</span><span>
+</span><span>  </span><span style="color:#6d6d6d;">/**
+</span><span style="color:#6d6d6d;">   * Utility method to run a command
+</span><span style="color:#6d6d6d;">   *
+</span><span style="color:#6d6d6d;">   * </span><span style="color:#ff5e5e;">@param </span><span style="color:#6d6d6d;">command          The command to execute (eg. &quot;npm&quot;)
+</span><span style="color:#6d6d6d;">   * </span><span style="color:#ff5e5e;">@param </span><span style="color:#6d6d6d;">args             The command line arguments (eg. &quot;--test --build&quot;)
+</span><span style="color:#6d6d6d;">   * </span><span style="color:#ff5e5e;">@param </span><span style="color:#6d6d6d;">detached         Whether it should run concurrently (true) or block the next tasks
+</span><span style="color:#6d6d6d;">   * </span><span style="color:#ff5e5e;">@param </span><span style="color:#6d6d6d;">workingDirectory The working directory to execute the command
+</span><span style="color:#6d6d6d;">   * </span><span style="color:#ff5e5e;">@param </span><span style="color:#6d6d6d;">logger           The logger to use for output
+</span><span style="color:#6d6d6d;">   * </span><span style="color:#ff5e5e;">@return </span><span style="color:#6d6d6d;">The process running the given command
+</span><span style="color:#6d6d6d;">   */
+</span><span>  </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">runCommand</span><span>(</span><span style="font-style:italic;color:#fc9354;">command</span><span>: </span><span style="color:#fbe3bf;">String</span><span>,
+</span><span>                 </span><span style="font-style:italic;color:#fc9354;">args</span><span>: </span><span style="color:#fbe3bf;">List</span><span>[</span><span style="color:#fbe3bf;">String</span><span>] </span><span style="color:#ff5e5e;">= </span><span style="color:#ecfdb9;">List</span><span>.empty,
+</span><span>                 </span><span style="font-style:italic;color:#fc9354;">detached</span><span>: </span><span style="font-style:italic;color:#fbdfb5;">Boolean </span><span style="color:#ff5e5e;">= </span><span style="color:#ff8942;">false</span><span>,
+</span><span>                 </span><span style="font-style:italic;color:#fc9354;">workingDirectory</span><span>: </span><span style="color:#fbe3bf;">File</span><span>,
+</span><span>                 </span><span style="font-style:italic;color:#fc9354;">logger</span><span>: </span><span style="color:#fbe3bf;">Logger</span><span>): </span><span style="color:#fbe3bf;">Process </span><span style="color:#ff5e5e;">= </span><span>{
+</span><span>
+</span><span>    </span><span style="color:#6d6d6d;">// The full command which will be executed (adapted to run on Unix and Windows)
+</span><span>    </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">fullCommand</span><span>: </span><span style="color:#fbe3bf;">scala</span><span>.</span><span style="color:#fbe3bf;">collection</span><span>.</span><span style="color:#fbe3bf;">Seq</span><span>[</span><span style="color:#fbe3bf;">String</span><span>] </span><span style="color:#ff5e5e;">= if </span><span>(isWindows) {
+</span><span>      </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">cmd</span><span style="color:#ffffff;">&quot;</span><span> :: </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">/c</span><span style="color:#ffffff;">&quot;</span><span> :: command :: args
+</span><span>    } </span><span style="color:#ff5e5e;">else </span><span>{
+</span><span>      command :: args
+</span><span>    }
+</span><span>
+</span><span>    logger.info(</span><span style="color:#6699cc;">s</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">Running command (detached: </span><span style="color:#e9fdac;">$detached</span><span style="color:#fbe3bf;">) &#39;${</span><span>fullCommand.mkString(</span><span style="color:#ffffff;">&quot; &quot;</span><span>)</span><span style="color:#fbe3bf;">}&#39;</span><span style="color:#ffffff;">&quot;</span><span>)
+</span><span>
+</span><span>    </span><span style="color:#6d6d6d;">// Instantiate the process
+</span><span>    </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">process </span><span style="color:#ff5e5e;">= </span><span style="color:#ecfdb9;">Process</span><span>(fullCommand, workingDirectory)
+</span><span>    </span><span style="color:#6d6d6d;">// Run the process with the given logger to use as stdout
+</span><span>    </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">startedProcess </span><span style="color:#ff5e5e;">=</span><span> process.run(logger)
+</span><span>    </span><span style="color:#6d6d6d;">// If the process should NOT run detached and exits with an error, throw an exception
+</span><span>    </span><span style="color:#ff5e5e;">if </span><span>(!detached &amp;&amp; startedProcess.exitValue() </span><span style="color:#ff5e5e;">!= </span><span style="color:#fdb082;">0</span><span>) {
+</span><span>      </span><span style="color:#ff5e5e;">throw new </span><span style="color:#fbe3bf;">IOException</span><span>(</span><span style="color:#6699cc;">s</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">command &#39;${</span><span>fullCommand.mkString(</span><span style="color:#ffffff;">&quot; &quot;</span><span>)</span><span style="color:#fbe3bf;">}&#39; failed with exit code ${</span><span>startedProcess.exitValue()</span><span style="color:#fbe3bf;">}</span><span style="color:#ffffff;">&quot;</span><span>)
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#6d6d6d;">// Return the process
+</span><span>    startedProcess
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<h2 id="create-an-sbt-source-task">Create an sbt source task</h2>
+<p>Add a file called <code>tailwind.sbt</code> as a sibling of your <code>build.sbt</code> to your
+project's root directory.</p>
+<pre data-lang="scala" style="background-color:#191919;color:#f8f8f2;" class="language-scala "><code class="language-scala" data-lang="scala"><span style="color:#6d6d6d;">// ./tailwind.sbt
+</span><span>
+</span><span style="color:#ff5e5e;">import</span><span> com.typesafe.sbt.web.Import.WebKeys.webTarget
+</span><span style="color:#ff5e5e;">import</span><span> sbt.io.Path.relativeTo
+</span><span>
+</span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">tailwindSourceTask </span><span style="color:#ff5e5e;">=</span><span> taskKey[</span><span style="color:#fbe3bf;">Seq</span><span>[</span><span style="color:#fbe3bf;">File</span><span>]](</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">Tailwind CSS source file task</span><span style="color:#ffffff;">&quot;</span><span>)
+</span><span>tailwindSourceTask := {
+</span><span>  </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">logger </span><span style="color:#ff5e5e;">=</span><span> streams.value.log
+</span><span>  logger.info(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">running tailwind source task</span><span style="color:#ffffff;">&quot;</span><span>)
+</span><span>  </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">start </span><span style="color:#ff5e5e;">= </span><span style="color:#ecfdb9;">System</span><span>.nanoTime()
+</span><span>  </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">sourceDir </span><span style="color:#ff5e5e;">= </span><span>(</span><span style="color:#ecfdb9;">Assets</span><span> / sourceDirectory).value / </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">tailwind</span><span style="color:#ffffff;">&quot;
+</span><span>  </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">workingDir </span><span style="color:#ff5e5e;">=</span><span> baseDirectory.value
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">targetDir </span><span style="color:#ff5e5e;">=</span><span> webTarget.value / </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">tailwind-plugin</span><span style="color:#ffffff;">&quot;
+</span><span>  </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">sources </span><span style="color:#ff5e5e;">=</span><span> sourceDir ** </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">*.css</span><span style="color:#ffffff;">&quot;
+</span><span>  </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">mappings </span><span style="color:#ff5e5e;">=</span><span> sources pair relativeTo(sourceDir)
+</span><span>  </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">compiled </span><span style="color:#ff5e5e;">=</span><span> mappings map { </span><span style="color:#ff5e5e;">case </span><span>(</span><span style="font-style:italic;color:#fc9354;">file</span><span>, </span><span style="font-style:italic;color:#fc9354;">path</span><span>) </span><span style="font-style:italic;color:#fbdfb5;">=&gt;</span><span> file -&gt; (</span><span style="color:#ecfdb9;">Assets</span><span> / resourceManaged).value / path }
+</span><span>
+</span><span>  </span><span style="color:#6d6d6d;">// note: add support for other OS and non x64 here,
+</span><span>  </span><span style="color:#6d6d6d;">// the &#39;cmd&#39; variable should simply resolve to the name 
+</span><span>  </span><span style="color:#6d6d6d;">// of the binary to use
+</span><span>  </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">cmd </span><span style="color:#ff5e5e;">= </span><span style="color:#ecfdb9;">CommandRunUtil</span><span>.isWindows </span><span style="color:#ff5e5e;">match </span><span>{
+</span><span>    </span><span style="color:#ff5e5e;">case </span><span style="color:#ff8942;">true </span><span style="font-style:italic;color:#fbdfb5;">=&gt; </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">tailwindcss-windows-x64.exe</span><span style="color:#ffffff;">&quot;
+</span><span>    </span><span style="color:#ff5e5e;">case </span><span style="color:#ff8942;">false </span><span style="font-style:italic;color:#fbdfb5;">=&gt; </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">tailwindcss-linux-x64</span><span style="color:#ffffff;">&quot;
+</span><span>  }
+</span><span>  compiled.foreach { </span><span style="color:#ff5e5e;">case </span><span>(</span><span style="font-style:italic;color:#fc9354;">f</span><span>, </span><span style="font-style:italic;color:#fc9354;">p</span><span>) </span><span style="font-style:italic;color:#fbdfb5;">=&gt;
+</span><span>    </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">args </span><span style="color:#ff5e5e;">= </span><span style="color:#ecfdb9;">List</span><span>(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">-i</span><span style="color:#ffffff;">&quot;</span><span>, f.absolutePath, </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">-o</span><span style="color:#ffffff;">&quot;</span><span>, p.absolutePath, </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">--minify</span><span style="color:#ffffff;">&quot;</span><span>)
+</span><span>    </span><span style="color:#ecfdb9;">CommandRunUtil</span><span>.runCommand(</span><span style="color:#6699cc;">s</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">./</span><span style="color:#e9fdac;">$cmd</span><span style="color:#ffffff;">&quot;</span><span>, args, detached </span><span style="color:#ff5e5e;">= </span><span style="color:#ff8942;">false</span><span>, workingDir, logger)
+</span><span>  }
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">result </span><span style="color:#ff5e5e;">=</span><span> compiled map (</span><span style="color:#e9fdac;">_</span><span>._2)
+</span><span>  </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">took </span><span style="color:#ff5e5e;">= </span><span>(</span><span style="color:#ecfdb9;">System</span><span>.nanoTime() - start) / </span><span style="color:#fdb082;">1000</span><span> / </span><span style="color:#fdb082;">1000
+</span><span>  logger.info(</span><span style="color:#6699cc;">s</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">finished tailwind source task (${</span><span>took</span><span style="color:#fbe3bf;">}ms)</span><span style="color:#ffffff;">&quot;</span><span>)
+</span><span>  logger.debug(</span><span style="color:#6699cc;">s</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">result: </span><span style="color:#e9fdac;">$result</span><span style="color:#ffffff;">&quot;</span><span>)
+</span><span>  result
+</span><span>}
+</span><span style="color:#ecfdb9;">Assets</span><span> / sourceGenerators += tailwindSourceTask.taskValue
+</span></code></pre>
+<aside class="callout" >
+	<div class="icon">
+		<svg class="feather-inline" role="img" aria-hidden="true">
+			
+			
+			<use href="https://hertig.blog/vendor/feather-sprite.svg#link" />
+			
+		</svg>
+	</div>
+
+	
+	<div class="content">
+		You can find more information about source file tasks in the
+<a href="https://github.com/sbt/sbt-web?tab=readme-ov-file#writing-a-source-file-task">README</a>
+of the sbt-web project.
+	</div>
+</aside><h2 id="create-the-tailwind-config">Create the tailwind config</h2>
+<p>In the root directory of your project, create a file <code>tailwind.config.js</code>.
+This is where you'll be able to <a href="https://tailwindcss.com/docs/configuration">configure TailwindCSS</a>.</p>
+<pre data-lang="javascript" style="background-color:#191919;color:#f8f8f2;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#6d6d6d;">// ./tailwind.config.js
+</span><span>
+</span><span style="color:#6d6d6d;">/** </span><span style="font-style:italic;color:#fbdfb5;">@type </span><span style="color:#6d6d6d;">{import(&#39;tailwindcss&#39;).Config} */
+</span><span style="color:#fbe3bf;">module</span><span>.</span><span style="color:#fbe3bf;">exports </span><span style="color:#ff5e5e;">= </span><span>{
+</span><span>    content: [
+</span><span>        </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">./app/**/*.scala.html</span><span style="color:#ffffff;">&quot;</span><span>,
+</span><span>    ],
+</span><span>    theme: {},
+</span><span>    plugins: [],
+</span><span>}
+</span></code></pre>
+<p>Make sure to include a <a href="https://en.wikipedia.org/wiki/Glob_(programming)">glob</a>
+that includes all your Twirl views. TailwindCSS will search the locations
+configured for uses of tailwind css classes, so that the compiled css file
+only includes the directives you actually need.</p>
+<h2 id="create-the-tailwind-css-file">Create the tailwind.css file</h2>
+<p>Create a file <code>tailwind/tailwind.css</code> in the <em>assets directory</em> of
+your project. By default this will be <code>./app/assets/</code>.</p>
+<pre data-lang="css" style="background-color:#191919;color:#f8f8f2;" class="language-css "><code class="language-css" data-lang="css"><span style="color:#6d6d6d;">/* ./app/assets/tailwind/tailwind.css */
+</span><span>
+</span><span>@tailwind </span><span style="color:#ff5e5e;">base</span><span>;
+</span><span>@tailwind components;
+</span><span>@tailwind utilities;
+</span><span>
+</span><span style="color:#6d6d6d;">/*
+</span><span style="color:#6d6d6d;">If you want to add your own default base styles for specific HTML elements,
+</span><span style="color:#6d6d6d;">use the @layer directive to add those styles to Tailwind’s base layer:
+</span><span style="color:#6d6d6d;">*/
+</span><span>@layer </span><span style="color:#ff5e5e;">base </span><span>{
+</span><span>
+</span><span>}
+</span><span>
+</span><span style="color:#6d6d6d;">/*
+</span><span style="color:#6d6d6d;">Use the components layer for any more complicated classes you want to add to
+</span><span style="color:#6d6d6d;">your project that you’d still like to be able to override with utility classes.
+</span><span style="color:#6d6d6d;">
+</span><span style="color:#6d6d6d;">Traditionally these would be classes like card, btn, badge — that kind of thing.
+</span><span style="color:#6d6d6d;">*/
+</span><span>@layer components {
+</span><span>
+</span><span>}
+</span><span>
+</span><span style="color:#6d6d6d;">/*
+</span><span style="color:#6d6d6d;">Add any of your own custom utility classes to Tailwind’s utilities layer:
+</span><span style="color:#6d6d6d;">*/
+</span><span>@layer utilities {
+</span><span>
+</span><span>}
+</span></code></pre>
+<p>This is where you can define base styles, components, and utility classes
+that will be available in all your views.</p>
+<h2 id="include-in-html">Include in HTML</h2>
+<p>The last step is to include the generated tailwind stylesheet inside the
+<code>&lt;head&gt;</code> section of your HTML.</p>
+<pre data-lang="html" style="background-color:#191919;color:#f8f8f2;" class="language-html "><code class="language-html" data-lang="html"><span>&lt;</span><span style="color:#ff5e5e;">head</span><span>&gt;
+</span><span>    ...
+</span><mark style="background-color:#3d3d3d55;"><span>    &lt;</span><span style="color:#ff5e5e;">link </span><span style="color:#97d8ea;">rel</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">stylesheet</span><span style="color:#ffffff;">&quot; </span><span style="color:#97d8ea;">href</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">@assetsFinder.path(</span><span style="color:#ffffff;">&quot;</span><span style="color:#97d8ea;">tailwind.css</span><span style="background-color:#f92649;color:#f8f8f0;">&quot;</span><span style="color:#97d8ea;">)</span><span style="background-color:#f92649;color:#f8f8f0;">&quot;</span><span> /&gt;
+</span></mark><span>    ...
+</span><span>&lt;/</span><span style="color:#ff5e5e;">head</span><span>&gt;
+</span></code></pre>
+<h2 id="directory-structure">Directory Structure</h2>
+<p>For reference, here is what the directory structure of your project should
+look like after finishing this guide:</p>
+<pre data-lang="text" style="background-color:#191919;color:#f8f8f2;" class="language-text "><code class="language-text" data-lang="text"><span>your-project/
+</span><span>├── app/
+</span><span>|   ├── assets/
+</span><span>|   |   └── tailwind/
+</span><span>|   |       └── tailwind.css
+</span><span>|   └── ...
+</span><span>├── conf/
+</span><span>├── project/
+</span><span>|   └── RunCommandUtil.scala
+</span><span>├── build.sbt
+</span><span>├── tailwind.config.js
+</span><span>├── tailwind.sbt
+</span><span>├── tailwindcss-linux-x64
+</span><span>└── tailwindcss-windows-x64.exe 
+</span></code></pre>
+<h2 id="that-s-it">That's it</h2>
+<p>That is everything you need. With all those steps applied, TailwindCSS will be
+compiled automatically in dev-mode, as well as when you compile your project
+for production, no further steps are necessary.</p>
+<p>Please note that due to how we downloaded the CLI binaries, you will not
+receive any automated updates for Tailwind. If you want to use the latest
+features, and if you want to keep up-to-date with security patches for
+the Tailwind CLI, you should frequently update the binaries manually,
+or write a script or CI that updates the binaries for you. If you happen to
+implement an automatic update like that, hit me up on Mastodon or via Email,
+so that I can update this guide.</p>
+
+
+
+
+
+<aside class="license">
+    <p>
+        TailwindCSS in Play Framework - Without npm &copy; 2024 by 
+        
+        Michael Hertig
+        
+        is licensed under 
+        
+            <a href="https:&#x2F;&#x2F;creativecommons.org&#x2F;licenses&#x2F;by-sa&#x2F;4.0&#x2F;" target="_blank">CC BY-SA 4.0</a>.
+        
+    </p>
+
+    
+        <p style="margin-top:1rem;">
+            Source code snippets are licensed under
+            
+                <a href="https:&#x2F;&#x2F;www.apache.org&#x2F;licenses&#x2F;LICENSE-2.0" target="_blank">Apache 2.0</a>.
+            
+        </p>
+    
+</aside>
+
+
+
+
+  </main>
+
+  <footer>
+    <div class="links">
+      <a rel="me" href="https://infosec.exchange/@hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#at-sign" />
+</svg>
+
+        Fediverse
+      </a>
+      <a href="https://codeberg.org/hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#git-pull-request" />
+</svg>
+
+        Codeberg
+      </a>
+      <a href="https://github.com/hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#github" />
+</svg>
+
+        Github
+      </a>
+      <a href="https://hertig.blog/atom.xml">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#rss" />
+</svg>
+
+        RSS
+      </a>
+      <a href="https://hertig.blog/about/#get-in-touch">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#mail" />
+</svg>
+
+        Contact
+      </a>
+    </div>
+    
+  </footer>
+
+  <a href="#" id="back-to-top" class="hidden" title="Back to top">
+    
+<svg class="feather " role="img" >
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#arrow-up" />
+</svg>
+
+  </a>
+</body>
+</html>
