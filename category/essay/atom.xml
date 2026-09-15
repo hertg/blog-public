@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>hertig.blog - essay</title>
+    <subtitle>Personal blog of Michael Hertig</subtitle>
+    <link href="https://hertig.blog/category/essay/atom.xml" rel="self" type="application/atom+xml"/>
+    <link href="https://hertig.blog"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <icon>https://hertig.blog/favicon-128.png</icon>
+    <updated>2025-11-10T00:00:00+00:00</updated>
+    <id>https://hertig.blog/category/essay/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Why most health insurance deductibles make no sense</title>
+        <published>2025-11-10T00:00:00+00:00</published>
+        <updated>2025-11-10T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Michael Hertig</name>
+        </author>
+        <link rel="alternate" href="https://hertig.blog/posts/why-most-health-insurance-deductibles-make-no-sense/" type="text/html"/>
+        <id>https://hertig.blog/posts/why-most-health-insurance-deductibles-make-no-sense/</id>
+        
+        <summary type="html">Digging into deductibles (Franchisen) of Swiss health insurances and comparing how different deductibles actually affect out-of-pocket costs.</summary>
+        
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Consumer first; Citizen second</title>
+        <published>2024-03-10T00:00:00+00:00</published>
+        <updated>2024-03-10T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Michael Hertig</name>
+        </author>
+        <link rel="alternate" href="https://hertig.blog/posts/consumer-first-citizen-second/" type="text/html"/>
+        <id>https://hertig.blog/posts/consumer-first-citizen-second/</id>
+        
+        <summary type="html">We have reached the final stage of the neoliberal fever dream. From housing, to media, to printers, to everything else. Get ready to own nothing; pay rent on everything.</summary>
+        
+        
+    </entry>
+</feed>

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name=”robots” content=”noai, noimageai”>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+    <title>Why most health insurance deductibles make no sense | hertig.blog</title>
+  
+
+  <link rel="shortcut icon" type="image/png" href="https://hertig.blog/favicon-128.png" />
+
+  
+    <link rel="alternate" type="application/atom+xml" title="RSS" href="https://hertig.blog/atom.xml">
+  
+
+  <meta property="og:type" content="website" />
+
+  
+    <meta property="og:url" content="https:&#x2F;&#x2F;hertig.blog&#x2F;posts&#x2F;why-most-health-insurance-deductibles-make-no-sense&#x2F;" />
+  
+  
+  
+    
+    <meta property="og:image" content="https:&#x2F;&#x2F;hertig.blog&#x2F;processed_images&#x2F;banner.23cfa1d47640f39a.png">
+  
+
+  
+    
+      <meta name="description" content="Digging into deductibles (Franchisen) of Swiss health insurances and comparing how different deductibles actually affect out-of-pocket costs." />
+    
+  
+
+  <link rel="stylesheet" href="https://hertig.blog/main.css" />
+  
+  <script src="https://hertig.blog/main.js"></script>
+  
+  
+  
+  <script src="https://cdn.usefathom.com/script.js" data-site="GTKPIRBR" defer></script>
+  
+
+  
+
+  <meta name="fediverse:creator" content="@hertg@infosec.exchange" />
+
+  
+
+
+<meta name="author" content="Michael Hertig">
+
+
+
+</head>
+
+<body>
+
+  <header>
+    <nav>
+
+      <a href="https://hertig.blog/" aria-label="Home">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#home" />
+</svg>
+
+      </a>
+      
+      
+      
+        
+        
+          <a href="https:&#x2F;&#x2F;hertig.blog&#x2F;posts&#x2F;" >
+          
+              Blog
+          
+          </a>
+        
+      
+        
+        
+          <a href="https:&#x2F;&#x2F;hertig.blog&#x2F;about&#x2F;" >
+          
+              About
+          
+          </a>
+        
+      
+
+    </nav>
+    <div id="menu-actions">
+      <button class="icon-only" id="dark-mode-toggle" aria-label="Toggle light and dark mode">
+        
+<svg class="feather light-only" role="img" >
+    <title>Switch to dark mode</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#moon" />
+</svg>
+
+        
+<svg class="feather dark-only" role="img" >
+    <title>Switch to light mode</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#sun" />
+</svg>
+
+      </button>
+    </div>
+  </header>
+
+  <main>
+    
+
+<h1 class="title">
+  Why most health insurance deductibles make no sense
+</h1>
+
+
+<p class="attention-grabber">
+	Digging into deductibles (Franchisen) of Swiss health insurances and comparing how different deductibles actually affect out-of-pocket costs.
+</p>
+
+
+<div id="metadata">
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Published on</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#globe" />
+</svg>
+ 
+        <time datetime="2025-11-10">November 10, 2025</time>
+    </div>
+    
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Reading time</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#book-open" />
+</svg>
+ 
+        10 minutes
+    </div>
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Authored by</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#user" />
+</svg>
+ 
+        
+        Michael Hertig
+        
+    </div>
+    
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#tag" />
+</svg>
+
+        
+            <a href="https://hertig.blog/tags/til/" class="tag">til</a>
+        
+            <a href="https://hertig.blog/tags/visualization/" class="tag">visualization</a>
+        
+            <a href="https://hertig.blog/tags/healthcare/" class="tag">healthcare</a>
+        
+    </div>
+    
+</div>
+
+
+    <div class="banner">
+    
+    
+        
+        <img src="https:&#x2F;&#x2F;hertig.blog&#x2F;processed_images&#x2F;banner.23cfa1d47640f39a.png" alt="An abstract line plot not showing real data or numbers. White background with six curves going from bottom left to top right, intersecting each other. One line is red, one line is blue, and all the others in between are dotted black lines." />
+        
+    
+    </div>
+
+
+<p>It's that time of the year again, where all of Switzerland is plastered with
+advertisements for health insurance companies. People still have time
+to switch their insurance until the end of November, and with the
+ever-increasing premium costs, many people are re-evaluating
+which insurance they should choose next year.</p>
+<p>Around this time last year, the SRF News portal published a Q&amp;A article
+
+    
+        
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-srf:espresso" class="ref-link">[1]</a></sup>
+
+where they answered a question about which <em>deductible</em> one should choose, and the answer was simple.</p>
+<blockquote>
+	<p>Bei Ausgaben für med. Leistungen von über 2000 Franken pro Jahr lohnt sich 
+die Mindestfranchise (300 Franken), bei unter 2000 Franken die Höchstfranchise (2500 Franken).</p>
+	
+</blockquote>
+<p>This peaked my interest, because I wondered where this number of <em>CHF 2000</em> came from
+and whether the decision really is that simple. And do the deductibles in-between really make no sense to choose?</p>
+<p>Naturally, instead of just accepting this statement and moving on, I started to dig into
+the data myself to figure out more, and here is what I found.</p>
+<aside class="callout" >
+	<div class="icon">
+		<svg class="feather-inline" role="img" aria-hidden="true">
+			
+			
+			<use href="https://hertig.blog/vendor/feather-sprite.svg#message-square" />
+			
+		</svg>
+	</div>
+
+	
+	<div class="content">
+		All data shown below is for basic health insurance offers for the year 2026.
+	</div>
+</aside><h2 id="glossary">Glossary</h2>
+<p>Defining terms with their German equivalent to best understand the text below.</p>
+<figure>
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>Premium</em><br><small>Prämie</small></td>
+      <td>Monthly cost of health insurance</td>
+    </tr>
+    <tr>
+      <td><em>Deductible</em><br><small>Franchise</small></td>
+      <td>Amount to be paid out-of-pocket before the insurance pays for anything</td>
+    </tr>
+    <tr>
+      <td><em>Co‑payment</em><br><small>Selbstbehalt</small></td>
+      <td>Your share of the costs after the insurance starts paying</td>
+    </tr>
+    <tr>
+      <td><em>Out-of-pocket expenses</em><br><small>Persönliche Kosten</small></td>
+      <td>What you are <em>actually</em> paying, including premiums, deductibles, and co-payments</td>
+    </tr>
+    <tr>
+      <td><em>Provider-billed amount</em><br><small>Rechnungsbetrag</small></td>
+      <td>Total cost invoiced by healthcare providers, i.e., doctors, pharmacies, etc.</td>
+    </tr>
+    <tr>
+      <td><em>Basic insurance</em><br><small>Grundversicherung</small></td>
+      <td>Mandatory health insurance, every insurance has to cover the same costs</td>
+    </tr>
+    <tr>
+      <td><em>Supplementary insurance</em><br><small>Zusatzversicherung</small></td>
+      <td>Optional insurance on top of the basic insurance that includes things not covered by basic insurance</td>
+    </tr>
+    <tr>
+      <td><em>Accident coverage</em><br><small>Unfalleinschluss</small></td>
+      <td>Whether accidents are covered by the insurance</td>
+    </tr>
+  </tbody>
+</table>
+<figcaption>
+Glossary
+</figcaption>
+</figure>
+<h2 id="a-quick-overview">A quick overview</h2>
+<p>In Switzerland, <em>basic health insurance</em> is mandatory, and every insurance has
+to cover the same services. When you choose an insurance, you also choose a <em>deductible</em>.
+The deductibles available to adults are 300, 500, 1000, 1500, 2000, and 2500.</p>
+<p>If the chosen deductible is 1000, that means the first CHF 1000 of
+health costs (covered by basic health insurance) will be paid <em>out-of-pocket</em>.</p>
+<p>After the deductible was paid off, the insurance starts chiming in. Specifically,
+the insurance starts paying 90% of the <em>provider-billed amount</em>, and you will only have to <em>co-pay</em> 10%.</p>
+<p>After all your co-payments reach a total of CHF 700, your health insurance will cover 100% of
+all costs.</p>
+<aside class="callout" >
+	<div class="icon">
+		<svg class="feather-inline" role="img" aria-hidden="true">
+			
+			
+			<use href="https://hertig.blog/vendor/feather-sprite.svg#message-square" />
+			
+		</svg>
+	</div>
+
+	
+	<div class="content">
+		For simplicity, I am focusing on basic health insurance for (young) adults because they work roughly the same, with the only difference that young adults get cheaper premiums. 
+<br><br>
+When it comes to child healthcare, there are many special
+cases and family discounts<sup class="footnote-reference"><a href="#bibref-comparis:family" class="ref-link">[2]</a></sup> to be considered, which goes beyond the scope of this post.
+	</div>
+</aside><h2 id="every-insurance-curve-looks-the-same">Every insurance curve looks the same</h2>
+<p>Those clear rules make it so that the range of patient expenses is limited and very predictable.
+Once an insurance and a deductible have been chosen, we can calculate exactly how much
+has to be paid out-of-pocket, based on the expected <em>provider-billed amount</em>.</p>
+<p>Let's plot one insurance offer as an example and compare the <em>out-of-pocket costs</em> for different deductibles.</p>
+<figure>
+  <img src="insurance-curve.png" alt="TODO" />
+  <figcaption>
+    Billed and actual costs for one particular insurance offer.
+  </figcaption>
+</figure>
+<p>The <em>x-axis</em> (left to right) shows the <em>provider-billed amount</em>, and the
+<em>y-axis</em> (bottom to top) shows the <em>out-of-pocket expenses</em>.
+Since you want to keep your expenses as low as possible, you want to make
+sure that you'll be on the curve at the bottom.</p>
+<p>What is immediately becoming clear is that <mark>the highest deductible makes sense when you don't have a lot
+of healthcare costs, and the lowest deductible makes sense after you reach
+a certain <em>tipping point</em> of the provider-billed amount.
+The other deductibles are <em>never</em> the cheapest option.</mark></p>
+<p>In fact, the cost curves look exactly like that for <em>all basic health insurances</em>, just
+with slightly different starting points on the left.</p>
+<p>For comparison, here is what a <em>very</em> different health insurance offer looks like.</p>
+<figure>
+  <img src="insurance-curve-ze.png" alt="TODO" />
+  <figcaption>
+    Billed and actual costs for a special insurance offer, specifically for posted workers.
+  </figcaption>
+</figure>
+<p>This offer is special because it is only available to posted workers
+
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-bsv:postedworkers" class="ref-link">[4]</a></sup>
+.
+The lines start very packed together but grow further apart, yet the overall curve is the same as in the first example.</p>
+<h2 id="the-tipping-point">The tipping point</h2>
+<p>We have answered one of the questions from the beginning;
+it really doesn't make a lot of sense to choose any
+in-between deductible, because they are never the cheapest option.</p>
+<p>So, let's focus on the lowest and highest deductibles,
+and specifically on the point where they intersect.
+I'll be calling this the <em>tipping point</em>.</p>
+<figure>
+  <img src="insurance-curve-tipping-point.png" alt="TODO" />
+  <figcaption>
+    Showcasing the intersection between the lowest and highest deductible as the tipping point
+  </figcaption>
+</figure>
+<p>Here we can see that the tipping point <em>for this particular insurance offer</em>
+is at <strong>CHF 1'898.67</strong>. If the expected healthcare costs are less
+than the tipping point, one should choose the highest deductible;
+otherwise, choose the lowest.</p>
+<h2 id="the-bigger-picture-and-more-plots">The bigger picture and more plots</h2>
+<p>We almost answered one of the other questions from the beginning:
+where does that CHF 2'000 in the SRF News Q&amp;A
+
+    
+        
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-srf:espresso" class="ref-link">[1]</a></sup>
+ come from?</p>
+<p>The tipping point for <em>that particular insurance offer</em> was determined
+to be at <strong>CHF 1'898.67</strong>. That is near 2'000, I suppose,
+but where is the tipping point for other insurance offers?</p>
+<p>Luckily, the Federal Office of Public Health (FOPH) publishes all
+available basic health insurance offers as CSV,
+a whopping dataset of 217'472 rows for 36'334 individual offers.
+
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-opendata:premiums" class="ref-link">[3]</a></sup>
+
+We can get a better picture by digging through this data and calculating the
+tipping point for each offer.</p>
+<figure>
+  <img src="tipping-points-all.png" alt="TODO" />
+  <figcaption>
+    Distribution of tipping points grouped by age groups
+  </figcaption>
+</figure>
+<p>This violin plot shows where most tipping points lie; from
+this we can already see the following:</p>
+<ol>
+<li>The tipping points for child insurance are much lower</li>
+<li>Tipping points for adults and young adults are largely the same, but
+they accumulate around two points</li>
+<li>The outliers in adult offers span over a wide range</li>
+</ol>
+<p>Because I am focusing on adult health insurance,
+I'll continue by filtering out the data from child health insurance offers,
+but in case you are interested, <a href="https://hertig.blog/posts/why-most-health-insurance-deductibles-make-no-sense/tipping-points-children.png">here</a> are the
+tipping points just for child health insurance.</p>
+<figure>
+  <img src="tipping-points-adults-by-canton.png" alt="TODO" />
+  <figcaption>
+    Distribution of tipping points in adult insurance offers 
+    grouped by cantons and split by accident coverage
+  </figcaption>
+</figure>
+<p>The tipping points are also the same across all regions,
+except for <em>ZE</em>. This is the special region
+for posted workers
+
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-bsv:postedworkers" class="ref-link">[4]</a></sup>
+
+who receive very different insurance offers, so we'll also filter them out from now on.</p>
+<p>The plot also shows that the two accumulation points we saw earlier
+are related to accident coverage.</p>
+<p>With this information, we have a definitive answer to the question
+about where the number 2'000 came from. If we want to
+be nitpicky we can clarify that this is only true for insurance offers
+with accident coverage, the tipping point for offers without accident coverage
+is more around 1'900 CHF.</p>
+<figure>
+  <img src="tipping-points-adults-by-company.png" alt="TODO" />
+  <figcaption>
+    Distribution of tipping points in adult insurance offers 
+    grouped by insurance company type and split by accident coverage
+  </figcaption>
+</figure>
+<p>The graph above shows that there is some variation between insurance companies,
+but it is still a negligible amount for a decent rule of thumb.</p>
+<h2 id="in-summary">In summary</h2>
+<p>We can confirm that using 2'000 CHF as the tipping point to
+choose a deductible is accurate enough for a rule of thumb.</p>
+<p>Based on the information presented, my personal recommendation on
+how to choose the deductible would be as follows:</p>
+<ol>
+<li>Make a guess on how much you'll be billed next year by healthcare providers (doctors, pharmacies, etc.);
+your insurance likely sent you a tax statement that shows the billed costs of last year; use it for reference</li>
+<li><em>If you need accident coverage</em>, choose the highest deductible (2500) only if you expect the
+provider-billed amount to be below CHF 2'000; otherwise, choose the lowest (300)</li>
+<li><em>If you do <b>not</b> need accident coverage</em>, choose the highest deductible (2500) only
+if you expect the provider-billed amount to be below CHF 1'900; otherwise, choose the lowest (300)</li>
+<li>Before committing to an insurance offer, calculate the tipping point with the formula below
+to double check whether that rule of thumb applies to the specific insurance offer you just chose</li>
+<li>Lastly, if you expect your healthcare costs to be around or slightly below the tipping point,
+be mindful that choosing the highest deductible will incentivize you not to get treatment you may need.
+I have personally experienced friends who picked the highest deductible because they were short on money
+and then didn't seek treatment during a mental health crisis because they were still in the deductible range.</li>
+</ol>
+<h2 id="further-information-and-ideas">Further information and ideas</h2>
+<h3 id="calculating-the-tipping-point">Calculating the tipping point</h3>
+<p>The following formula was used to calculate the tipping point
+of a particular health insurance offer:</p>
+<pre data-lang="python" style="background-color:#191919;color:#f8f8f2;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#6d6d6d;"># pseudo code with example values
+</span><span>
+</span><span>dedLow </span><span style="color:#ff5e5e;">= </span><span style="color:#fdb082;">300       </span><span style="color:#6d6d6d;"># lowest deductible
+</span><span>premLow </span><span style="color:#ff5e5e;">= </span><span style="color:#fdb082;">380.20   </span><span style="color:#6d6d6d;"># premium for lowest deductible
+</span><span>premHigh </span><span style="color:#ff5e5e;">= </span><span style="color:#fdb082;">260.30  </span><span style="color:#6d6d6d;"># premium for highest deductible
+</span><span>
+</span><span style="color:#6d6d6d;"># calculating the tipping point
+</span><span>tp </span><span style="color:#ff5e5e;">= </span><span>(premHigh </span><span style="color:#ff5e5e;">* </span><span style="color:#fdb082;">12 </span><span style="color:#ff5e5e;">- </span><span>premLow </span><span style="color:#ff5e5e;">* </span><span style="color:#fdb082;">12</span><span>) </span><span style="color:#ff5e5e;">/ -</span><span style="color:#fdb082;">0.9 </span><span style="color:#ff5e5e;">+ </span><span>dedLow
+</span></code></pre>
+<h3 id="an-idea-for-a-better-calculator">An idea for a better calculator</h3>
+<p>For people who can approximately foresee the healthcare
+costs they are facing next year, it would be useful to create
+a calculator that takes this estimate into account.</p>
+<p>The premium calculator
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-bag:priminfo" class="ref-link">[5]</a></sup>
+
+of the FOPH requires you to choose
+a deductible before showing you the cheapest options.
+But as we have seen, not <strong>all</strong> offers have the same tipping point.</p>
+<p>I think it would be useful if there was a calculator
+where you can enter an estimate of next year's
+<em>provider-billed amount</em>, let it consider
+the tipping points, and then return the best options based on that.</p>
+<p>This certainly wouldn't be that difficult to implement,
+and I was even thinking about doing that. But if I were
+to attempt that, this post would never be published
+before the end of November... maybe next year!</p>
+
+
+
+
+    <div id="references">
+    
+    
+        <h2>References</h2>
+        <dl>
+        
+            
+    <dt class="ref-num" id="bibref-srf:espresso">[1]</dt>
+    <dd>
+
+    
+        
+    Julian Gerber,
+    «Wann lohnt sich die höchste Franchise von 2500 Franken?»,
+    SRF News,
+    2024,
+    
+        <a href="https://www.srf.ch/sendungen/kassensturz-espresso/services/chat-krankenkassenpraemien-wann-lohnt-sich-die-hoechste-franchise-von-2500-franken" target="_blank">https://www.srf.ch/sendungen/kassensturz-espresso/services/chat-krankenkassenpraemien-wann-lohnt-sich-die-hoechste-franchise-von-2500-franken</a>
+    
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-comparis:family">[2]</dt>
+    <dd>
+
+    
+        
+    Magdalena Soll,
+    Familienrabatte bei der Krankenkasse: Information und Übersicht,
+    comparis.ch,
+    2025,
+    
+        <a href="https://www.comparis.ch/krankenkassen/familie/familienrabatte" target="_blank">https://www.comparis.ch/krankenkassen/familie/familienrabatte</a>
+    
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-opendata:premiums">[3]</dt>
+    <dd>
+
+    
+        
+    Bundesamt für Gesundheit, Sektion Prämien und Solvenzaufsicht,
+    Krankenversicherungsprämien,
+    
+    2025,
+    
+        <a href="https://opendata.swiss/de/dataset/health-insurance-premiums" target="_blank">https://opendata.swiss/de/dataset/health-insurance-premiums</a>
+    
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-bsv:postedworkers">[4]</dt>
+    <dd>
+
+    
+        
+    Bundesamt für Sozialversicherungen,
+    Entsandte,
+    
+    
+    
+        <a href="https://www.bsv.admin.ch/bsv/en/home/informations-for/entsandte.html" target="_blank">https://www.bsv.admin.ch/bsv/en/home/informations-for/entsandte.html</a>
+    
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-bag:priminfo">[5]</dt>
+    <dd>
+
+    
+        
+    Bundesamt für Gesundheit,
+    Prämienrechner 2026,
+    
+    
+    
+        <a href="https://www.priminfo.admin.ch/de/praemien" target="_blank">https://www.priminfo.admin.ch/de/praemien</a>
+    
+
+    
+
+</dd>
+
+        
+        </dl>
+    
+    </div>
+
+
+<aside class="license">
+    <p>
+        Why most health insurance deductibles make no sense &copy; 2025 by 
+        
+        Michael Hertig
+        
+        is licensed under 
+        
+            <a href="https:&#x2F;&#x2F;creativecommons.org&#x2F;licenses&#x2F;by-nc-sa&#x2F;4.0&#x2F;" target="_blank">CC BY-NC-SA 4.0</a>.
+        
+    </p>
+
+    
+</aside>
+
+
+
+
+  </main>
+
+  <footer>
+    <div class="links">
+      <a rel="me" href="https://infosec.exchange/@hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#at-sign" />
+</svg>
+
+        Fediverse
+      </a>
+      <a href="https://codeberg.org/hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#git-pull-request" />
+</svg>
+
+        Codeberg
+      </a>
+      <a href="https://github.com/hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#github" />
+</svg>
+
+        Github
+      </a>
+      <a href="https://hertig.blog/atom.xml">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#rss" />
+</svg>
+
+        RSS
+      </a>
+      <a href="https://hertig.blog/about/#get-in-touch">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#mail" />
+</svg>
+
+        Contact
+      </a>
+    </div>
+    
+  </footer>
+
+  <a href="#" id="back-to-top" class="hidden" title="Back to top">
+    
+<svg class="feather " role="img" >
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#arrow-up" />
+</svg>
+
+  </a>
+</body>
+</html>
