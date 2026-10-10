@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name=”robots” content=”noai, noimageai”>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+    <title>Gmail might be putting words in your mouth | hertig.blog</title>
+  
+
+  <link rel="shortcut icon" type="image/png" href="https://hertig.blog/favicon-128.png" />
+
+  
+    <link rel="alternate" type="application/atom+xml" title="RSS" href="https://hertig.blog/atom.xml">
+  
+
+  <meta property="og:type" content="website" />
+
+  
+    <meta property="og:url" content="https:&#x2F;&#x2F;hertig.blog&#x2F;posts&#x2F;gmail-might-be-putting-words-in-your-mouth&#x2F;" />
+  
+  
+  
+    
+    <meta property="og:image" content="https:&#x2F;&#x2F;hertig.blog&#x2F;processed_images&#x2F;banner.05b756d93a839a60.png">
+  
+
+  
+    
+      <meta name="description" content="When Gmail translates multi-language mails, it will rewrite sentences that already are in the target language, and potentially change their meaning" />
+    
+  
+
+  <link rel="stylesheet" href="https://hertig.blog/main.css" />
+  
+  <script src="https://hertig.blog/main.js"></script>
+  
+  
+  
+  <script src="https://cdn.usefathom.com/script.js" data-site="GTKPIRBR" defer></script>
+  
+
+  
+
+  <meta name="fediverse:creator" content="@hertg@infosec.exchange" />
+
+  
+
+
+<meta name="author" content="Michael Hertig">
+
+
+
+</head>
+
+<body>
+
+  <header>
+    <nav>
+
+      <a href="https://hertig.blog/" aria-label="Home">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#home" />
+</svg>
+
+      </a>
+      
+      
+      
+        
+        
+          <a href="https:&#x2F;&#x2F;hertig.blog&#x2F;posts&#x2F;" >
+          
+              Blog
+          
+          </a>
+        
+      
+        
+        
+          <a href="https:&#x2F;&#x2F;hertig.blog&#x2F;about&#x2F;" >
+          
+              About
+          
+          </a>
+        
+      
+
+    </nav>
+    <div id="menu-actions">
+      <button class="icon-only" id="dark-mode-toggle" aria-label="Toggle light and dark mode">
+        
+<svg class="feather light-only" role="img" >
+    <title>Switch to dark mode</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#moon" />
+</svg>
+
+        
+<svg class="feather dark-only" role="img" >
+    <title>Switch to light mode</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#sun" />
+</svg>
+
+      </button>
+    </div>
+  </header>
+
+  <main>
+    
+
+<h1 class="title">
+  Gmail might be putting words in your mouth
+</h1>
+
+
+<p class="attention-grabber">
+	When Gmail translates multi-language mails, it will rewrite sentences that already are in the target language, and potentially change their meaning
+</p>
+
+
+<div id="metadata">
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Published on</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#globe" />
+</svg>
+ 
+        <time datetime="2023-11-30">November 30, 2023</time>
+    </div>
+    
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Reading time</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#book-open" />
+</svg>
+ 
+        4 minutes
+    </div>
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Authored by</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#user" />
+</svg>
+ 
+        
+        Michael Hertig
+        
+    </div>
+    
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#tag" />
+</svg>
+
+        
+            <a href="https://hertig.blog/tags/til/" class="tag">til</a>
+        
+    </div>
+    
+</div>
+
+
+    <div class="banner">
+    
+    
+        
+        <img src="https:&#x2F;&#x2F;hertig.blog&#x2F;processed_images&#x2F;banner.05b756d93a839a60.png" alt="Screenshot of Gmail&#x27;s translation feature: Translating from German to German" />
+        
+    
+    </div>
+
+
+<p>Earlier this week at the office, just a few minutes before I was about to head home,
+a coworker called me over <em>(I'll refer to him as Charlie)</em> to show
+me an email he received. He assumed this would be the kind
+of thing that I'd find interesting, or at least amusing.
+He was right about both.</p>
+<h2 id="the-original-email">The original email</h2>
+<p>Here is the <strong>original</strong> email Charlie received. I changed the names
+for privacy reasons, and added a few line breaks for readability purposes.</p>
+<pre data-lang="txt" style="background-color:#191919;color:#f8f8f2;" class="language-txt "><code class="language-txt" data-lang="txt"><span>Salut Alice
+</span><span>
+</span><span>Merci pour ta clarification. 
+</span><span>
+</span><span>J&#39;ai fermé le ticket. 
+</span><span>
+</span><span>Mais ça reste la question de comment on va le 
+</span><span>faire dans le futur. 
+</span><span>
+</span><span>@Charlie
+</span><span>Wie soll das in Zukunft gehandhabt werden? Alice 
+</span><span>konnte offenbar bisher bereits Zertifikate 
+</span><span>erstellen. (Und hat dies bisher auch so in 
+</span><span>den Projekten gemacht) 
+</span><span>
+</span><span>Ich bitte um Klärung und Festlegung des Vorgehens.
+</span><span>
+</span><span>Liebe Grüsse
+</span><span>Bob
+</span></code></pre>
+<p>As you can see, this email contains sentences of different languages.
+The email was sent from Bob to Alice, who speaks French.
+Charlie, who speaks German, was CC'd for a follow-up question.</p>
+<p>Now, Charlie's Gmail account is configured to automatically translate
+French emails to German. Charlie is aware that Google Translate
+isn't perfect in translating whole sentences or large texts,
+but it is still better at it than he is, so he enabled the auto-translate
+feature for French a while ago.</p>
+<p>The following text is what the translated <em>(French → German)</em>
+mail looked like in Charlies inbox.</p>
+<pre data-lang="txt" style="background-color:#191919;color:#f8f8f2;" class="language-txt "><code class="language-txt" data-lang="txt"><span>Hallo Alice
+</span><span>
+</span><span>Vielen Dank für Ihre Klarstellung.
+</span><span>
+</span><span>Ich habe das Ticket geschlossen.
+</span><span>
+</span><span>Aber es bleibt die Frage, wie wir das in Zukunft 
+</span><span>machen werden.
+</span><span>
+</span><span>@Charlie
+</span><span>Was meinst du also mit Zukunft gehandhabt werden? 
+</span><span>Alice wird sich darüber ärgern, dass es 
+</span><span>zertifiziert ist. (Und hat dies bisher auch so 
+</span><span>in den Projekten gemacht)
+</span><span>
+</span><span>Ich bitte um Klärung und Festlegung des Vorgehens.
+</span><span>
+</span><span>Liebe Grüße
+</span><span>Bob
+</span></code></pre>
+<h2 id="the-translation-error">The translation error</h2>
+<p>To make it easier for everyone reading, I'll reference the text above in its English meaning from now on.</p>
+<p>As can be seen in the full text above, Gmail decided to translate not
+only the French sentences to German, but also «translated»
+the German parts to German. And with that, it entirely changed the
+meaning of a sentence.</p>
+<figure >
+	<blockquote>
+		<p>Alice has apparently already been able to create certificates.</p>
+		
+		<footer>
+			<cite>&mdash;Original</cite>
+		</footer>
+		
+	</blockquote>
+</figure><figure >
+	<blockquote>
+		<p>Alice will be offended by the fact that it is certified.</p>
+		
+		<footer>
+			<cite>&mdash;Auto-Translate</cite>
+		</footer>
+		
+	</blockquote>
+</figure>
+<p>As you would expect, Charlie was slightly confused when he first read
+that sentence. And he was still confused after reading it a second,
+and a third time. Why would Alice be offended about a certificate?
+What is that about?</p>
+<p>Because Charlie didn't understand what was going on, he
+called Bob (the sender) by phone to ask why Alice would be
+offended about a certificate. Bob, obviously, was dumbfounded by that question.
+After Charlie read him that sentence back, Bob insisted that he never wrote
+what Charlie was accusing him of writing.
+Shortly after, the underlying cause came to light. They both realized
+the email had been «translated».</p>
+<h2 id="miscommunication">Miscommunication</h2>
+<p>I'll admit, this is hardly the first case of
+miscommunication happening in workplace correspondence. And
+thankfully, Alice, Bob, and Charlie are all on good terms,
+so the miscommunication didn't lead to any further escalation
+or interpersonal conflict.</p>
+<p>But depending on the individual relationships, and depending on
+the exact translation errors, it is easy to imagine that such an
+issue could lead to worse outcomes. And maybe it already has on some occasions.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>While the instance presented here is rather funny,
+this miscommunication was caused
+for absolutely no reason. It occurred because Google
+translated German to German. Why would a user ever
+expect that to happen?</p>
+<p>Personally, I would not consider this to be a highly concerning
+issue, but I think that it is important to know that
+this issue exists.</p>
+<p>At a time when many users uncritically trust
+the technology they use daily,
+and at a time when big tech companies seemingly
+implement <abbr title="Large Language Models">LLMs</abbr>
+into every aspect of their products, errors like
+this really never fail to make me laugh.</p>
+<p>The key takeaway here is:
+<mark>If you occasionally write or receive mails
+that contain text in multiple languages, make sure to disable
+the auto-translate feature in Gmail.</mark>
+And if you enable it, remember that you did, and check the
+original if the content is of high importance or confusing.</p>
+<p>Btw. did you know <a href="https://www.theguardian.com/technology/2023/nov/23/does-australia-exist-bing-search-no-bluesky-mastodon">Australia doesn't exist</a>?</p>
+
+
+
+
+
+<aside class="license">
+    <p>
+        Gmail might be putting words in your mouth &copy; 2023 by 
+        
+        Michael Hertig
+        
+        is licensed under 
+        
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
+        
+    </p>
+
+    
+</aside>
+
+
+
+
+  </main>
+
+  <footer>
+    <div class="links">
+      <a rel="me" href="https://infosec.exchange/@hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#at-sign" />
+</svg>
+
+        Fediverse
+      </a>
+      <a href="https://codeberg.org/hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#git-pull-request" />
+</svg>
+
+        Codeberg
+      </a>
+      <a href="https://github.com/hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#github" />
+</svg>
+
+        Github
+      </a>
+      <a href="https://hertig.blog/atom.xml">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#rss" />
+</svg>
+
+        RSS
+      </a>
+      <a href="https://hertig.blog/about/#get-in-touch">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#mail" />
+</svg>
+
+        Contact
+      </a>
+    </div>
+    
+  </footer>
+
+  <a href="#" id="back-to-top" class="hidden" title="Back to top">
+    
+<svg class="feather " role="img" >
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#arrow-up" />
+</svg>
+
+  </a>
+</body>
+</html>

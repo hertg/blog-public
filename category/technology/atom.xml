@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>hertig.blog - technology</title>
+    <subtitle>Personal blog of Michael Hertig</subtitle>
+    <link href="https://hertig.blog/category/technology/atom.xml" rel="self" type="application/atom+xml"/>
+    <link href="https://hertig.blog"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <icon>https://hertig.blog/favicon-128.png</icon>
+    <updated>2024-08-18T00:00:00+00:00</updated>
+    <id>https://hertig.blog/category/technology/atom.xml</id>
+    <entry xml:lang="en">
+        <title>TailwindCSS in Play Framework - Without npm</title>
+        <published>2024-08-18T00:00:00+00:00</published>
+        <updated>2024-08-18T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Michael Hertig</name>
+        </author>
+        <link rel="alternate" href="https://hertig.blog/posts/tailwindcss-in-play-framework-without-npm/" type="text/html"/>
+        <id>https://hertig.blog/posts/tailwindcss-in-play-framework-without-npm/</id>
+        
+        <summary type="html">A Guide on how to use and automate TailwindCSS compilation in a Play app with an sbt-web source file task. No need for npm, complicated bundlers or Javascript.</summary>
+        
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Accessing the request body in Play Framework Filters</title>
+        <published>2024-05-26T00:00:00+00:00</published>
+        <updated>2024-05-26T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Michael Hertig</name>
+        </author>
+        <link rel="alternate" href="https://hertig.blog/posts/accessing-request-body-in-play-framework-filters/" type="text/html"/>
+        <id>https://hertig.blog/posts/accessing-request-body-in-play-framework-filters/</id>
+        
+        <summary type="html">A highly performant way to extract data from the raw request body and pass on information to subsequent Filters and Actions based on it. With an example of how to parse bearer tokens as per RFC 6750.</summary>
+        
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Epochalypse: When computers travel back in time</title>
+        <published>2023-12-30T00:00:00+00:00</published>
+        <updated>2023-12-30T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Michael Hertig</name>
+        </author>
+        <link rel="alternate" href="https://hertig.blog/posts/epochalypse-when-computers-travel-back-in-time/" type="text/html"/>
+        <id>https://hertig.blog/posts/epochalypse-when-computers-travel-back-in-time/</id>
+        
+        <summary type="html">There is a computer bug waiting to jump at us in about 14 years. Watch out for it, or you&#x27;ll suddenly find yourself back in the year 1901.</summary>
+        
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Using BibTeX for referencing in Zola</title>
+        <published>2023-12-13T00:00:00+00:00</published>
+        <updated>2023-12-19T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Michael Hertig</name>
+        </author>
+        <link rel="alternate" href="https://hertig.blog/posts/using-bibtex-for-referencing-in-zola/" type="text/html"/>
+        <id>https://hertig.blog/posts/using-bibtex-for-referencing-in-zola/</id>
+        
+        <summary type="html">Presenting a better alternative to reference sources on a static page generated with Zola. With a single BibTeX file, auto numbering, and the possibility to easily add in-text references.</summary>
+        
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Gmail might be putting words in your mouth</title>
+        <published>2023-11-30T00:00:00+00:00</published>
+        <updated>2023-11-30T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Michael Hertig</name>
+        </author>
+        <link rel="alternate" href="https://hertig.blog/posts/gmail-might-be-putting-words-in-your-mouth/" type="text/html"/>
+        <id>https://hertig.blog/posts/gmail-might-be-putting-words-in-your-mouth/</id>
+        
+        <summary type="html">When Gmail translates multi-language mails, it will rewrite sentences that already are in the target language, and potentially change their meaning</summary>
+        
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Implementing toggleable dark mode on a website</title>
+        <published>2023-11-12T00:00:00+00:00</published>
+        <updated>2023-11-12T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Michael Hertig</name>
+        </author>
+        <link rel="alternate" href="https://hertig.blog/posts/implementing-toggleable-dark-mode-on-a-website/" type="text/html"/>
+        <id>https://hertig.blog/posts/implementing-toggleable-dark-mode-on-a-website/</id>
+        
+        <summary type="html">A minimalistic way to implement dark mode support on any website, respecting the browsers preferred theme, while still allowing to manually toggle between light and dark</summary>
+        
+        
+    </entry>
+</feed>
