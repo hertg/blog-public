@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name=”robots” content=”noai, noimageai”>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+    <title>Using BibTeX for referencing in Zola | hertig.blog</title>
+  
+
+  <link rel="shortcut icon" type="image/png" href="https://hertig.blog/favicon-128.png" />
+
+  
+    <link rel="alternate" type="application/atom+xml" title="RSS" href="https://hertig.blog/atom.xml">
+  
+
+  <meta property="og:type" content="website" />
+
+  
+    <meta property="og:url" content="https:&#x2F;&#x2F;hertig.blog&#x2F;posts&#x2F;using-bibtex-for-referencing-in-zola&#x2F;" />
+  
+  
+  
+    
+    <meta property="og:image" content="https:&#x2F;&#x2F;hertig.blog&#x2F;processed_images&#x2F;banner.299a777b3701e3c3.png">
+  
+
+  
+    
+      <meta name="description" content="Presenting a better alternative to reference sources on a static page generated with Zola. With a single BibTeX file, auto numbering, and the possibility to easily add in-text references." />
+    
+  
+
+  <link rel="stylesheet" href="https://hertig.blog/main.css" />
+  
+  <script src="https://hertig.blog/main.js"></script>
+  
+  
+  
+  <script src="https://cdn.usefathom.com/script.js" data-site="GTKPIRBR" defer></script>
+  
+
+  
+
+  <meta name="fediverse:creator" content="@hertg@infosec.exchange" />
+
+  
+
+
+<meta name="author" content="Michael Hertig">
+
+
+
+</head>
+
+<body>
+
+  <header>
+    <nav>
+
+      <a href="https://hertig.blog/" aria-label="Home">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#home" />
+</svg>
+
+      </a>
+      
+      
+      
+        
+        
+          <a href="https:&#x2F;&#x2F;hertig.blog&#x2F;posts&#x2F;" >
+          
+              Blog
+          
+          </a>
+        
+      
+        
+        
+          <a href="https:&#x2F;&#x2F;hertig.blog&#x2F;about&#x2F;" >
+          
+              About
+          
+          </a>
+        
+      
+
+    </nav>
+    <div id="menu-actions">
+      <button class="icon-only" id="dark-mode-toggle" aria-label="Toggle light and dark mode">
+        
+<svg class="feather light-only" role="img" >
+    <title>Switch to dark mode</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#moon" />
+</svg>
+
+        
+<svg class="feather dark-only" role="img" >
+    <title>Switch to light mode</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#sun" />
+</svg>
+
+      </button>
+    </div>
+  </header>
+
+  <main>
+    
+
+<h1 class="title">
+  Using BibTeX for referencing in Zola
+</h1>
+
+
+<p class="attention-grabber">
+	Presenting a better alternative to reference sources on a static page generated with Zola. With a single BibTeX file, auto numbering, and the possibility to easily add in-text references.
+</p>
+
+
+<div id="metadata">
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Published on</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#globe" />
+</svg>
+ 
+        <time datetime="2023-12-13">December 13, 2023</time>
+    </div>
+    
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Reading time</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#book-open" />
+</svg>
+ 
+        7 minutes
+    </div>
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Authored by</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#user" />
+</svg>
+ 
+        
+        Michael Hertig
+        
+    </div>
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#edit" />
+</svg>
+ 
+        Updated on December 19, 2023
+    </div>
+    
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#tag" />
+</svg>
+
+        
+            <a href="https://hertig.blog/tags/dev/" class="tag">dev</a>
+        
+            <a href="https://hertig.blog/tags/guide/" class="tag">guide</a>
+        
+    </div>
+    
+</div>
+
+
+    <div class="banner">
+    
+    
+        
+        <img src="https:&#x2F;&#x2F;hertig.blog&#x2F;processed_images&#x2F;banner.299a777b3701e3c3.png" alt="citation needed written in square brackets" />
+        
+    
+    </div>
+
+
+<h2 id="introduction">Introduction</h2>
+<p>If you are anything like me, you may not particularly like the
+Footnotes feature, as it is available in Markdown.
+There are also some unresolved issues 
+
+    
+        
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-zola:footnotes:render" class="ref-link">[1]</a></sup>
+
+
+
+    
+        
+    
+        
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-zola:footnotes:enhancement" class="ref-link">[2]</a></sup>
+ in Zola, and the Markdown footnotes
+have just never really satisfied my needs.</p>
+<p>In this guide, I present an alternative where we can use
+a simple BibTeX file to put all our references and then
+cite them in text with an easy-to-use shortcode.</p>
+<h2 id="our-goal">Our Goal</h2>
+<p>We want to have a single <code>references.bib</code> file that contains
+all of our references. This file can simply be added as a
+co-located asset to the markdown file.</p>
+<pre data-lang="txt" style="background-color:#191919;color:#f8f8f2;" class="language-txt "><code class="language-txt" data-lang="txt"><span>content/
+</span><span>  my-blog-post/
+</span><span>    index.md 
+</span><span>    references.bib
+</span></code></pre>
+<p>Our <code>references.bib</code> file may look like this:</p>
+<pre data-lang="bibtex" style="background-color:#191919;color:#f8f8f2;" class="language-bibtex "><code class="language-bibtex" data-lang="bibtex"><span style="color:#ff5e5e;">@misc</span><span>{danielmolina,
+</span><span>  </span><span style="color:#fbe3bf;">title </span><span>= </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">Automatic list of papers using Zola and Bibtex</span><span style="color:#ffffff;">&quot;</span><span>,
+</span><span>  </span><span style="color:#fbe3bf;">url </span><span>= </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">https://www.danimolina.net/en/posts/bibtex-papers/</span><span style="color:#ffffff;">&quot;</span><span>,
+</span><span>  </span><span style="color:#fbe3bf;">author </span><span>= </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">Daniel Molina</span><span style="color:#ffffff;">&quot;</span><span>,
+</span><span>  </span><span style="color:#fbe3bf;">year </span><span>= </span><span style="color:#fdb082;">2023</span><span>,
+</span><span>  </span><span style="color:#fbe3bf;">month </span><span>= </span><span style="color:#fdb082;">8</span><span>,
+</span><span>}
+</span></code></pre>
+<p>And our markdown file may contain the following text.</p>
+<pre data-lang="jinja" style="background-color:#191919;color:#f8f8f2;" class="language-jinja "><code class="language-jinja" data-lang="jinja"><span>One blog post {{ </span><span style="color:#e9fdac;">reference</span><span>(</span><span style="color:#e9fdac;">key</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">danielmolina</span><span style="color:#ffffff;">&quot;</span><span>) }} 
+</span><span>has been particularly helpful in the creation of 
+</span><span>this guide.
+</span></code></pre>
+<p>As you can see, this guide will enable you to
+collect all your references in a single file
+and then use them for in-text citations with
+a simple shortcode 
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-zola:shortcodes" class="ref-link">[5]</a></sup>
+.
+The result can be observed in this very blog post.</p>
+<h2 id="loading-the-co-located-bibtex-file">Loading the co-located BibTeX file</h2>
+<p>In your Zola template, add the following
+piece of code at the position where you'd like the
+references to show up; In my case, I've put this code right below the
+line where it renders the <code>page.content</code>.</p>
+<pre data-lang="jinja" style="background-color:#191919;color:#f8f8f2;" class="language-jinja "><code class="language-jinja" data-lang="jinja"><span>{{ </span><span style="color:#e9fdac;">page</span><span>.</span><span style="color:#e9fdac;">content </span><span>| </span><span style="color:#e9fdac;">safe </span><span>}}
+</span><span>
+</span><span>{% </span><span style="color:#ff5e5e;">set </span><span style="color:#e9fdac;">citations </span><span style="color:#ff5e5e;">= </span><span style="color:#e9fdac;">load_data</span><span>(</span><span style="color:#e9fdac;">path</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">page</span><span>.</span><span style="color:#e9fdac;">colocated_path</span><span> ~ </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">references.bib</span><span style="color:#ffffff;">&quot;</span><span>, </span><span style="color:#e9fdac;">format</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">bibtex</span><span style="color:#ffffff;">&quot;</span><span>, </span><span style="color:#e9fdac;">required</span><span style="color:#ff5e5e;">=</span><span style="color:#ff8942;">false</span><span>) %}
+</span><span>{% </span><span style="color:#ff5e5e;">if </span><span style="color:#e9fdac;">citations </span><span>%}
+</span><span>    &lt;div id=&quot;references&quot;&gt;
+</span><span>    {% </span><span style="color:#ff5e5e;">set </span><span style="color:#e9fdac;">has_references </span><span style="color:#ff5e5e;">= </span><span style="color:#e9fdac;">citations</span><span>.</span><span style="color:#e9fdac;">bibliographies </span><span>| </span><span style="color:#e9fdac;">length </span><span style="color:#ff5e5e;">&gt;</span><span> 0 %}
+</span><span>    {% </span><span style="color:#ff5e5e;">if </span><span style="color:#e9fdac;">has_references </span><span>%}
+</span><span>        &lt;h2&gt;References&lt;/h2&gt;
+</span><span>        &lt;dl&gt;
+</span><span>        {% </span><span style="color:#ff5e5e;">for </span><span style="color:#e9fdac;">citation </span><span style="color:#ff5e5e;">in </span><span style="color:#e9fdac;">citations</span><span>.</span><span style="color:#e9fdac;">bibliographies </span><span>%}
+</span><span>            {{ </span><span style="color:#e9fdac;">macros</span><span>::</span><span style="color:#e9fdac;">ref</span><span>(</span><span style="color:#e9fdac;">bibliography</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">citation</span><span>,</span><span style="color:#e9fdac;">num</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">loop</span><span>.</span><span style="color:#e9fdac;">index</span><span>) }}
+</span><span>        {% </span><span style="color:#ff5e5e;">endfor </span><span>%}
+</span><span>        &lt;/dl&gt;
+</span><span>    {% </span><span style="color:#ff5e5e;">endif </span><span>%}
+</span><span>    &lt;/div&gt;
+</span><span>{% </span><span style="color:#ff5e5e;">endif </span><span>%}
+</span></code></pre>
+<p>This code will check if there is a <code>references.bib</code> file
+colocated with the markdown file and load it if it exists.
+If the file does not exist, nothing will be loaded or rendered.</p>
+<p>Of course, I encourage you to change this template and
+adapt it to your needs. The key parts of the code here
+are the call to the macro, which we will create next, and
+the use of <code>loop.index</code> for the <code>num</code> argument.</p>
+<p>The <code>loop.index</code> is a variable that is automatically made
+available by the Tera templating engine, and it starts at <code>1</code>.
+This means all references will be numbered from <code>1</code> and upwards
+in the order that they appear in the BibTeX file.</p>
+<h2 id="creating-the-macros">Creating the macros</h2>
+<p>The code we put in our page template calls a macro
+called <code>ref</code>; this does not yet exist, and we'll have
+to create it ourselves.</p>
+<p>Don't get overwhelmed by the code below.
+This is by far the largest part of this guide
+and is also what took me the most time to implement.</p>
+<p>If you don't have a file for your macros yet,
+simply create a <code>macros.html</code> file within the
+<code>templates/</code> directory of your Zola page.
+Macros 
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-tera:macros" class="ref-link">[6]</a></sup>
+ are a
+feature of Tera 
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-tera" class="ref-link">[7]</a></sup>
+, the template
+engine used by Zola.</p>
+<pre data-lang="jinja" style="background-color:#191919;color:#f8f8f2;" class="language-jinja "><code class="language-jinja" data-lang="jinja"><span>{% </span><span style="color:#ff5e5e;">macro </span><span style="color:#e9fdac;">bibstrip</span><span>(</span><span style="color:#ff5e5e;">in</span><span>) %}
+</span><span>{{ </span><span style="color:#ff5e5e;">in </span><span>| </span><span style="color:#e9fdac;">replace</span><span>(</span><span style="color:#e9fdac;">from</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">---</span><span style="color:#ffffff;">&quot;</span><span>,</span><span style="color:#e9fdac;">to</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">—</span><span style="color:#ffffff;">&quot;</span><span>) | </span><span style="color:#e9fdac;">replace</span><span>(</span><span style="color:#e9fdac;">from</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">--</span><span style="color:#ffffff;">&quot;</span><span>, </span><span style="color:#e9fdac;">to</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">-</span><span style="color:#ffffff;">&quot;</span><span>) | </span><span style="color:#e9fdac;">replace</span><span>(</span><span style="color:#e9fdac;">from</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">{</span><span style="color:#ffffff;">&quot;</span><span>,</span><span style="color:#e9fdac;">to</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;&quot;</span><span>) | </span><span style="color:#e9fdac;">replace</span><span>(</span><span style="color:#e9fdac;">from</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">}</span><span style="color:#ffffff;">&quot;</span><span>, </span><span style="color:#e9fdac;">to</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;&quot;</span><span>) | </span><span style="color:#e9fdac;">safe </span><span>}}
+</span><span>{% </span><span style="color:#ff5e5e;">endmacro </span><span style="color:#e9fdac;">bibstrip </span><span>%}
+</span><span>
+</span><span>{% </span><span style="color:#ff5e5e;">macro </span><span style="color:#e9fdac;">bib_book</span><span>(</span><span style="color:#e9fdac;">ref</span><span>) %}
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">author </span><span>}}, 
+</span><span>    &lt;em&gt;{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">title </span><span>}}&lt;/em&gt;, 
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">publisher </span><span>}}, 
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">year </span><span>}}
+</span><span>{% </span><span style="color:#ff5e5e;">endmacro </span><span style="color:#e9fdac;">bib_book </span><span>%}
+</span><span>
+</span><span>{% </span><span style="color:#ff5e5e;">macro </span><span style="color:#e9fdac;">bib_article</span><span>(</span><span style="color:#e9fdac;">ref</span><span>) %}
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">author </span><span>}}, 
+</span><span>    &quot;{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">title </span><span>}}&quot;, 
+</span><span>    &lt;em&gt;{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">journal </span><span>}}&lt;/em&gt;, 
+</span><span>    vol. {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">volume </span><span>}}, 
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">number</span><span>}}, 
+</span><span>    pp. {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">pages </span><span>}},
+</span><span>    {% </span><span style="color:#ff5e5e;">if </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">month </span><span>%}{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">month </span><span>}}{% </span><span style="color:#ff5e5e;">endif </span><span>%}
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">year </span><span>}}
+</span><span>{% </span><span style="color:#ff5e5e;">endmacro </span><span style="color:#e9fdac;">bib_article </span><span>%}
+</span><span>
+</span><span>{% </span><span style="color:#ff5e5e;">macro </span><span style="color:#e9fdac;">bib_inproceedings</span><span>(</span><span style="color:#e9fdac;">ref</span><span>) %}
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">author </span><span>}}, 
+</span><span>    &quot;{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">title </span><span>}},&quot; 
+</span><span>    in &lt;em&gt;{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">booktitle </span><span>}}&lt;/em&gt;, 
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">address </span><span>}},
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">year </span><span>}}, 
+</span><span>    pp. {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">pages </span><span>}}
+</span><span>{% </span><span style="color:#ff5e5e;">endmacro </span><span style="color:#e9fdac;">bib_inproceedings </span><span>%}
+</span><span>
+</span><span>{% </span><span style="color:#ff5e5e;">macro </span><span style="color:#e9fdac;">bib_manual</span><span>(</span><span style="color:#e9fdac;">ref</span><span>) %}
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">author </span><span>}}, 
+</span><span>    &lt;em&gt;{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">title </span><span>}}&lt;/em&gt;,
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">organization </span><span>}},
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">address </span><span>}}, 
+</span><span>    {% </span><span style="color:#ff5e5e;">if </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">edition </span><span>%}{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">edition </span><span>}},{% </span><span style="color:#ff5e5e;">endif </span><span>%}
+</span><span>    {% </span><span style="color:#ff5e5e;">if </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">month </span><span>%}{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">month </span><span>}}{% </span><span style="color:#ff5e5e;">endif </span><span>%}
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">year </span><span>}}.
+</span><span>{% </span><span style="color:#ff5e5e;">endmacro </span><span style="color:#e9fdac;">bib_manual </span><span>%}
+</span><span>
+</span><span>{% </span><span style="color:#ff5e5e;">macro </span><span style="color:#e9fdac;">bib_thesis</span><span>(</span><span style="color:#e9fdac;">ref</span><span>, </span><span style="color:#e9fdac;">type</span><span>) %}
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">author </span><span>}}, 
+</span><span>    &quot;{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">title </span><span>}},&quot; 
+</span><span>    {{ </span><span style="color:#e9fdac;">type </span><span>}},
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">school </span><span>}},
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">address </span><span>}}, 
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">year </span><span>}}
+</span><span>{% </span><span style="color:#ff5e5e;">endmacro </span><span style="color:#e9fdac;">bib_thesis </span><span>%}
+</span><span>
+</span><span>{% </span><span style="color:#ff5e5e;">macro </span><span style="color:#e9fdac;">bib_mastersthesis</span><span>(</span><span style="color:#e9fdac;">ref</span><span>) %}
+</span><span>    {{ </span><span style="color:#e9fdac;">macros</span><span>::</span><span style="color:#e9fdac;">bib_thesis</span><span>(</span><span style="color:#e9fdac;">ref</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">ref</span><span>,</span><span style="color:#e9fdac;">type</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">M.S. Thesis</span><span style="color:#ffffff;">&quot;</span><span>) }}
+</span><span>{% </span><span style="color:#ff5e5e;">endmacro </span><span style="color:#e9fdac;">bib_mastersthesis </span><span>%}
+</span><span>
+</span><span>{% </span><span style="color:#ff5e5e;">macro </span><span style="color:#e9fdac;">bib_phdthesis</span><span>(</span><span style="color:#e9fdac;">ref</span><span>) %}
+</span><span>    {{ </span><span style="color:#e9fdac;">macros</span><span>::</span><span style="color:#e9fdac;">bib_thesis</span><span>(</span><span style="color:#e9fdac;">ref</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">ref</span><span>,</span><span style="color:#e9fdac;">type</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">Ph.D. dissertation</span><span style="color:#ffffff;">&quot;</span><span>) }}
+</span><span>{% </span><span style="color:#ff5e5e;">endmacro </span><span style="color:#e9fdac;">bib_phdthesis </span><span>%}
+</span><span>
+</span><span>{% </span><span style="color:#ff5e5e;">macro </span><span style="color:#e9fdac;">bib_misc</span><span>(</span><span style="color:#e9fdac;">ref</span><span>) %}
+</span><span>    {% </span><span style="color:#ff5e5e;">if </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">author </span><span>%}{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">author </span><span>}},{% </span><span style="color:#ff5e5e;">endif </span><span>%}
+</span><span>    {{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">title </span><span>}},
+</span><span>    {% </span><span style="color:#ff5e5e;">if </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">publisher </span><span>%}{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">publisher </span><span>}},{% </span><span style="color:#ff5e5e;">endif </span><span>%}
+</span><span>    {% </span><span style="color:#ff5e5e;">if </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">year </span><span>%}{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">year </span><span>}},{% </span><span style="color:#ff5e5e;">endif </span><span>%}
+</span><span>    {% </span><span style="color:#ff5e5e;">if </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">doi </span><span>%}
+</span><span>        &lt;a href=&quot;https://doi.org/{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">doi </span><span>}}&quot;&gt;{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">doi </span><span>}}&lt;/a&gt;
+</span><span>    {% </span><span style="color:#ff5e5e;">elif </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">url </span><span>%}
+</span><span>        &lt;a href=&quot;{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">url </span><span>}}&quot; target=&quot;_blank&quot;&gt;{{ </span><span style="color:#e9fdac;">ref</span><span>.</span><span style="color:#e9fdac;">tags</span><span>.</span><span style="color:#e9fdac;">url </span><span>}}&lt;/a&gt;
+</span><span>    {% </span><span style="color:#ff5e5e;">endif </span><span>%}
+</span><span>{% </span><span style="color:#ff5e5e;">endmacro </span><span style="color:#e9fdac;">bib_misc </span><span>%}
+</span><span>
+</span><span>{% </span><span style="color:#ff5e5e;">macro </span><span style="color:#e9fdac;">bib_ref</span><span>(</span><span style="color:#e9fdac;">bibliography</span><span>,</span><span style="color:#e9fdac;">num</span><span>) %}
+</span><span>    {% </span><span style="color:#ff5e5e;">if </span><span style="color:#e9fdac;">bibliography</span><span>.</span><span style="color:#e9fdac;">entry_type </span><span style="color:#ff5e5e;">== </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">book</span><span style="color:#ffffff;">&quot; </span><span>%}
+</span><span>        {{ </span><span style="color:#e9fdac;">macros</span><span>::</span><span style="color:#e9fdac;">bib_book</span><span>(</span><span style="color:#e9fdac;">ref</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">bibliography</span><span>) }}
+</span><span>    {% </span><span style="color:#ff5e5e;">elif </span><span style="color:#e9fdac;">bibliography</span><span>.</span><span style="color:#e9fdac;">entry_type </span><span style="color:#ff5e5e;">== </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">article</span><span style="color:#ffffff;">&quot; </span><span>%}
+</span><span>        {{ </span><span style="color:#e9fdac;">macros</span><span>::</span><span style="color:#e9fdac;">bib_article</span><span>(</span><span style="color:#e9fdac;">ref</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">bibliography</span><span>) }}
+</span><span>    {% </span><span style="color:#ff5e5e;">elif </span><span style="color:#e9fdac;">bibliography</span><span>.</span><span style="color:#e9fdac;">entry_type </span><span style="color:#ff5e5e;">== </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">inproceedings</span><span style="color:#ffffff;">&quot; </span><span>%}
+</span><span>        {{ </span><span style="color:#e9fdac;">macros</span><span>::</span><span style="color:#e9fdac;">bib_inproceedings</span><span>(</span><span style="color:#e9fdac;">ref</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">bibliography</span><span>) }}
+</span><span>    {% </span><span style="color:#ff5e5e;">elif </span><span style="color:#e9fdac;">bibliography</span><span>.</span><span style="color:#e9fdac;">entry_type </span><span style="color:#ff5e5e;">== </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">misc</span><span style="color:#ffffff;">&quot; </span><span>%}
+</span><span>        {{ </span><span style="color:#e9fdac;">macros</span><span>::</span><span style="color:#e9fdac;">bib_misc</span><span>(</span><span style="color:#e9fdac;">ref</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">bibliography</span><span>) }}
+</span><span>    {% </span><span style="color:#ff5e5e;">elif </span><span style="color:#e9fdac;">bibliography</span><span>.</span><span style="color:#e9fdac;">entry_type </span><span style="color:#ff5e5e;">== </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">mastersthesis</span><span style="color:#ffffff;">&quot; </span><span>%}
+</span><span>        {{ </span><span style="color:#e9fdac;">macros</span><span>::</span><span style="color:#e9fdac;">bib_mastersthesis</span><span>(</span><span style="color:#e9fdac;">ref</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">bibliography</span><span>) }}
+</span><span>    {% </span><span style="color:#ff5e5e;">elif </span><span style="color:#e9fdac;">bibliography</span><span>.</span><span style="color:#e9fdac;">entry_type </span><span style="color:#ff5e5e;">== </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">phdthesis</span><span style="color:#ffffff;">&quot; </span><span>%}
+</span><span>        {{ </span><span style="color:#e9fdac;">macros</span><span>::</span><span style="color:#e9fdac;">bib_phdthesis</span><span>(</span><span style="color:#e9fdac;">ref</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">bibliography</span><span>) }}
+</span><span>    {% </span><span style="color:#ff5e5e;">elif </span><span style="color:#e9fdac;">bibliography</span><span>.</span><span style="color:#e9fdac;">entry_type </span><span style="color:#ff5e5e;">== </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">manual</span><span style="color:#ffffff;">&quot; </span><span>%}
+</span><span>        {{ </span><span style="color:#e9fdac;">macros</span><span>::</span><span style="color:#e9fdac;">bib_manual</span><span>(</span><span style="color:#e9fdac;">ref</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">bibliography</span><span>) }}
+</span><span>    {% </span><span style="color:#ff5e5e;">elif </span><span style="color:#e9fdac;">bibliography</span><span>.</span><span style="color:#e9fdac;">entry_type </span><span style="color:#ff5e5e;">== </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">githubissue</span><span style="color:#ffffff;">&quot; </span><span>%}
+</span><span>        {{ </span><span style="color:#e9fdac;">macros</span><span>::</span><span style="color:#e9fdac;">bib_githubissue</span><span>(</span><span style="color:#e9fdac;">ref</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">bibliography</span><span>) }}
+</span><span>    {% </span><span style="color:#ff5e5e;">else </span><span>%}
+</span><span>        unsupported reference type
+</span><span>    {% </span><span style="color:#ff5e5e;">endif </span><span>%}
+</span><span>{% </span><span style="color:#ff5e5e;">endmacro </span><span style="color:#e9fdac;">bib_ref </span><span>%}
+</span><span>
+</span><span>{% </span><span style="color:#ff5e5e;">macro </span><span style="color:#e9fdac;">ref</span><span>(</span><span style="color:#e9fdac;">bibliography</span><span>,</span><span style="color:#e9fdac;">num</span><span>) %}
+</span><span>    &lt;dt class=&quot;ref-num&quot; id=&quot;bibref-{{ </span><span style="color:#e9fdac;">bibliography</span><span>.</span><span style="color:#e9fdac;">citation_key </span><span>}}&quot;&gt;[{{ </span><span style="color:#e9fdac;">num </span><span>}}]&lt;/dt&gt;
+</span><span>    &lt;dd&gt;{{ </span><span style="color:#e9fdac;">macros</span><span>::</span><span style="color:#e9fdac;">bibstrip</span><span>(</span><span style="color:#ff5e5e;">in=</span><span style="color:#e9fdac;">macros</span><span>::</span><span style="color:#e9fdac;">bib_ref</span><span>(</span><span style="color:#e9fdac;">bibliography</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">bibliography</span><span>,</span><span style="color:#e9fdac;">num</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">num</span><span>)) }}&lt;/dd&gt;
+</span><span>{% </span><span style="color:#ff5e5e;">endmacro </span><span style="color:#e9fdac;">ref </span><span>%}
+</span></code></pre>
+<p>I've split the code up into multiple
+macros to make it a little bit more
+digestible. Here is a rundown of the different
+macros.</p>
+<ul>
+<li><code>macros::ref</code> The macro we call from the template
+takes a single bibliography object and the reference number as an argument</li>
+<li><code>macros::bib_ref</code> Looks at the <code>entry_type</code> of the reference and subsequently
+calls the corresponding formatter macro for that particular reference type</li>
+<li><code>macros::bibstrip</code> A custom utility function that simply
+strips out leftover curly braces (that may be kept by the BibTeX parser to
+denote literal values) and converts double and triple dashes to En and Em dashes,
+respectively</li>
+</ul>
+<p>The rest of the macros, <code>macros::bib_book</code>, <code>macros::bib_article</code>, <code>macros::bib_inproceedings</code>,
+<code>macros::bib_manual</code>, <code>macros::bib_thesis</code>, <code>macros::bib_mastersthesis</code>, <code>macros::bib_phdthesis</code>,
+<code>macros::bib_misc</code> are simply different formats for the different
+BibTeX entry types 
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-bibtex:entrytypes" class="ref-link">[8]</a></sup>
+.</p>
+<h3 id="the-bibliography-object">The bibliography object</h3>
+<p>A <code>bibliography</code> object, as it is passed into the
+macros, looks as follows:</p>
+<pre data-lang="json" style="background-color:#191919;color:#f8f8f2;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>  </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">entry_type</span><span style="color:#ffffff;">&quot;</span><span>: </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">misc</span><span style="color:#ffffff;">&quot;</span><span>,
+</span><span>  </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">citation_key</span><span style="color:#ffffff;">&quot;</span><span>: </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">danimolina</span><span style="color:#ffffff;">&quot;</span><span>,
+</span><span>  </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">tags</span><span style="color:#ffffff;">&quot;</span><span>: {
+</span><span>    </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">title</span><span style="color:#ffffff;">&quot;</span><span>: </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">Automatic list of papers using Zola and Bibtex</span><span style="color:#ffffff;">&quot;</span><span>,
+</span><span>    </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">url</span><span style="color:#ffffff;">&quot;</span><span>: </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">https://www.danimolina.net/en/posts/bibtex-papers/</span><span style="color:#ffffff;">&quot;</span><span>,
+</span><span>    </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">author</span><span style="color:#ffffff;">&quot;</span><span>: </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">Daniel Molina</span><span style="color:#ffffff;">&quot;</span><span>,
+</span><span>    </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">year</span><span style="color:#ffffff;">&quot;</span><span>: </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">2023</span><span style="color:#ffffff;">&quot;</span><span>,
+</span><span>    </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">month</span><span style="color:#ffffff;">&quot;</span><span>: </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">8</span><span style="color:#ffffff;">&quot;
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>If you'd like to debug your own bibliography while tweaking
+the reference formatting, you can add the following code
+to your page template to render it in its JSON representation:</p>
+<pre data-lang="jinja" style="background-color:#191919;color:#f8f8f2;" class="language-jinja "><code class="language-jinja" data-lang="jinja"><span>&lt;pre&gt;
+</span><span>    {{ </span><span style="color:#e9fdac;">citations </span><span>| </span><span style="color:#e9fdac;">json_encode</span><span>(</span><span style="color:#e9fdac;">pretty</span><span style="color:#ff5e5e;">=</span><span style="color:#ff8942;">true</span><span>) | </span><span style="color:#e9fdac;">linebreaksbr </span><span>| </span><span style="color:#e9fdac;">safe </span><span>}}
+</span><span>&lt;/pre&gt;
+</span></code></pre>
+<h3 id="a-note-on-the-formatting">A note on the formatting</h3>
+<p>Please note that the format implemented here
+does not adhere to any specific citation style.
+It is loosely based on the IEEE format 
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-bibtex:ieee" class="ref-link">[9]</a></sup>
+
+but simplified to make it easier to implement
+with Tera.</p>
+<p>I will reference a few unrelated sources here
+just to showcase what the different entry types
+will look like in my formatting.</p>
+<ul>
+<li>An article 
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-CitekeyArticle" class="ref-link">[10]</a></sup>
+</li>
+<li>A book 
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-CitekeyBook" class="ref-link">[11]</a></sup>
+</li>
+<li>A conference paper 
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-CitekeyInproceedings" class="ref-link">[12]</a></sup>
+</li>
+<li>A manual 
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-CitekeyManual" class="ref-link">[13]</a></sup>
+</li>
+<li>A masters thesis 
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-CitekeyMastersthesis" class="ref-link">[14]</a></sup>
+</li>
+<li>A PHD dissertation 
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-CitekeyPhdthesis" class="ref-link">[15]</a></sup>
+</li>
+<li>And an RFC 
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+        
+    
+    <sup class="footnote-reference"><a href="#bibref-rfc6749" class="ref-link">[16]</a></sup>
+</li>
+</ul>
+<p>If you want to achieve guideline-compliant
+formatting of your references, you will have to update the
+macros or use another way to pre-format the references before loading
+them into the template.</p>
+<aside class="callout" >
+	<div class="icon">
+		<svg class="feather-inline" role="img" aria-hidden="true">
+			
+			
+			<use href="https://hertig.blog/vendor/feather-sprite.svg#info" />
+			
+		</svg>
+	</div>
+
+	
+	<div class="content">
+		<b>There are other ways to achieve the same</b><br>
+While I was working on this, a few other
+possibilities came to my mind for how the BibTeX
+could be formatted. One potential way of
+achieving the same would be to introduce an
+additional build step before the site
+gets built with Zola. For example, a
+python script or a simple CLI could be
+used to turn the BibTeX files into pre-formatted
+JSON files, and then those JSON files could
+get loaded into the template.
+<br><br>
+The reason I decided to go with this solution instead
+was that I like the way that it works fully integrated.
+It keeps the build as simple as any Zola page and doesn't
+require the installation of external tooling or dependencies.
+And after all, I'm just using it for blog posts, not academic papers. :)
+	</div>
+</aside><h2 id="creating-the-shortcode">Creating the shortcode</h2>
+<p>Notice how we gave the references in the <code>macros::ref</code> macro an
+<code>id</code> of <code>bibref-{{ bibliography.citation_key }}</code>. This was done so that
+we could link to the individual references from in-text citations.</p>
+<p>Create a file at <code>templates/shortcodes/reference.html</code> with the
+following content.</p>
+<pre data-lang="jinja" style="background-color:#191919;color:#f8f8f2;" class="language-jinja "><code class="language-jinja" data-lang="jinja"><span>{% </span><span style="color:#ff5e5e;">set </span><span style="color:#e9fdac;">citations </span><span style="color:#ff5e5e;">= </span><span style="color:#e9fdac;">load_data</span><span>(</span><span style="color:#e9fdac;">path</span><span style="color:#ff5e5e;">=</span><span style="color:#e9fdac;">page</span><span>.</span><span style="color:#e9fdac;">colocated_path</span><span> ~ </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">references.bib</span><span style="color:#ffffff;">&quot;</span><span>, </span><span style="color:#e9fdac;">format</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">bibtex</span><span style="color:#ffffff;">&quot;</span><span>, </span><span style="color:#e9fdac;">required</span><span style="color:#ff5e5e;">=</span><span style="color:#ff8942;">false</span><span>) %}
+</span><span>{% </span><span style="color:#ff5e5e;">if </span><span style="color:#e9fdac;">citations </span><span>%}
+</span><span>    {% </span><span style="color:#ff5e5e;">for </span><span style="color:#e9fdac;">bib </span><span style="color:#ff5e5e;">in </span><span style="color:#e9fdac;">citations</span><span>.</span><span style="color:#e9fdac;">bibliographies </span><span>%}
+</span><span>        {% </span><span style="color:#ff5e5e;">if </span><span style="color:#e9fdac;">bib</span><span>.</span><span style="color:#e9fdac;">citation_key </span><span style="color:#ff5e5e;">== </span><span style="color:#e9fdac;">key </span><span>%}
+</span><span>            {% </span><span style="color:#ff5e5e;">set_global </span><span style="color:#e9fdac;">num </span><span style="color:#ff5e5e;">= </span><span style="color:#e9fdac;">loop</span><span>.</span><span style="color:#e9fdac;">index </span><span>%}
+</span><span>        {% </span><span style="color:#ff5e5e;">endif </span><span>%}
+</span><span>    {% </span><span style="color:#ff5e5e;">endfor </span><span>%}
+</span><span>    &lt;a href=&quot;#bibref-{{ </span><span style="color:#e9fdac;">key </span><span>}}&quot; class=&quot;ref-link&quot;&gt;[{{ </span><span style="color:#e9fdac;">num </span><span>| </span><span style="color:#e9fdac;">default</span><span>(</span><span style="color:#e9fdac;">value</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">#noref</span><span style="color:#ffffff;">&quot;</span><span>) }}]&lt;/a&gt;
+</span><span>{% </span><span style="color:#ff5e5e;">endif </span><span>%}
+</span></code></pre>
+<p>This code looks very similar to what we did in the page template.
+It takes an argument called <code>key</code> and loads the co-located
+<code>references.bib</code> asset. It then loops over all the bibliography entries
+and sets a global variable <code>num</code> if the provided <code>key</code> matches the
+key of the BibTeX entry.</p>
+<p>This means that all references will be numbered in the order
+that they appear in the <code>references.bib</code> file, starting at <code>1</code>.
+The unfortunate drawback of this is that references are not
+numbered in the order that they appear in the markdown. You'll have
+to manually keep the order of entries the same as
+the order of in-text citation if that is of importance to you.</p>
+<p>This shortcode can be used from your markdown files as follows:</p>
+<pre data-lang="markdown" style="background-color:#191919;color:#f8f8f2;" class="language-markdown "><code class="language-markdown" data-lang="markdown"><span>{{ reference(key=&quot;somekey&quot;) }}
+</span></code></pre>
+<p>Where the <code>key</code> must match the entry key of the
+BibTeX reference.</p>
+<pre data-lang="bibtex" style="background-color:#191919;color:#f8f8f2;" class="language-bibtex "><code class="language-bibtex" data-lang="bibtex"><span style="color:#ff5e5e;">@misc</span><span>{somekey,
+</span><span>  </span><span style="color:#fbe3bf;">title </span><span>= </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">Some title</span><span style="color:#ffffff;">&quot;</span><span>,
+</span><span>  </span><span style="color:#fbe3bf;">url </span><span>= </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">https://www.example.org/</span><span style="color:#ffffff;">&quot;</span><span>,
+</span><span>  </span><span style="color:#fbe3bf;">author </span><span>= </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">John Doe</span><span style="color:#ffffff;">&quot;</span><span>,
+</span><span>}
+</span></code></pre>
+<h2 id="adding-stylesheets">Adding Stylesheets</h2>
+<p>How you want to style your references is
+left up to you. To get you started, you can
+take inspiration from the way that I chose
+to style the references on this page.</p>
+<pre data-lang="scss" style="background-color:#191919;color:#f8f8f2;" class="language-scss "><code class="language-scss" data-lang="scss"><span style="color:#ff5e5e;">a</span><span style="color:#66a9ec;">.</span><span style="color:#97d8ea;">ref-link </span><span>{
+</span><span>    </span><span style="color:#fbe3bf;">font-size</span><span>: </span><span style="color:#fdb082;">1</span><span style="color:#ff5e5e;">rem</span><span>;
+</span><span>    </span><span style="color:#fbe3bf;">text-decoration</span><span>: </span><span style="color:#fdb082;">none</span><span>;
+</span><span>}
+</span><span>
+</span><span style="color:#66a9ec;">#references </span><span>{
+</span><span>    </span><span style="color:#fbe3bf;">font-size</span><span>: </span><span style="color:#fdb082;">0.9</span><span style="color:#ff5e5e;">rem</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#ff5e5e;">dl </span><span>{
+</span><span>        </span><span style="color:#fbe3bf;">display</span><span>: </span><span style="color:#fdb082;">grid</span><span>;
+</span><span>        </span><span style="color:#fbe3bf;">overflow</span><span>: </span><span style="color:#fdb082;">hidden</span><span>;
+</span><span>        </span><span style="color:#fbe3bf;">grid-template-columns</span><span>: </span><span style="color:#fdb082;">max-content </span><span style="color:#6699cc;">minmax</span><span>(</span><span style="color:#fdb082;">0</span><span>,</span><span style="color:#fdb082;">1</span><span style="color:#ff5e5e;">fr</span><span>);
+</span><span>        </span><span style="color:#fbe3bf;">row-gap</span><span>: </span><span style="color:#fdb082;">0.8</span><span style="color:#ff5e5e;">rem</span><span>;
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#ff5e5e;">dt </span><span>{
+</span><span>        </span><span style="color:#fbe3bf;">grid-column-start</span><span>: </span><span style="color:#fdb082;">1</span><span>;
+</span><span>        </span><span style="color:#fbe3bf;">padding-right</span><span>: </span><span style="color:#fdb082;">0.8</span><span style="color:#ff5e5e;">rem</span><span>;
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#ff5e5e;">dd </span><span>{
+</span><span>        </span><span style="color:#fbe3bf;">grid-column-start</span><span>: </span><span style="color:#fdb082;">2</span><span>;
+</span><span>        </span><span style="color:#fbe3bf;">-webkit-hyphens</span><span>: </span><span style="color:#fdb082;">auto</span><span>;
+</span><span>        </span><span style="color:#fbe3bf;">-moz-hyphens</span><span>: </span><span style="color:#fdb082;">auto</span><span>;
+</span><span>        </span><span style="color:#fbe3bf;">-ms-hyphens</span><span>: </span><span style="color:#fdb082;">auto</span><span>;
+</span><span>        </span><span style="color:#fbe3bf;">hyphens</span><span>: </span><span style="color:#fdb082;">auto</span><span>;
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h2 id="some-caveats">Some caveats</h2>
+<ol>
+<li>As already mentioned further above, this implementation
+does not adhere to any citation style. If you wish your
+references to be formatted in a specific style, you will
+have to adjust the macros or choose another way of pre-formatting
+the bibliography.</li>
+<li>The references will be numbered in the order they appear in the
+<code>references.bib</code>, not in the order they were mentioned in the Markdown.</li>
+<li>There will be no backlinks from the references back up into the in-text citations</li>
+<li>Zola may throw errors if your BibTeX contains non-numeric <code>month</code> fields.
+As a workaround, you can add the following code at the top of your <code>references.bib</code> file:<pre data-lang="bibtex" style="background-color:#191919;color:#f8f8f2;" class="language-bibtex "><code class="language-bibtex" data-lang="bibtex"><span style="color:#ff5e5e;">@string </span><span>(jan=&quot;1&quot;)
+</span><span>@string (</span><span style="color:#fbe3bf;">feb</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">2</span><span style="color:#ffffff;">&quot;</span><span>)
+</span><span style="color:#ff5e5e;">@string </span><span>(mar=&quot;3&quot;)
+</span><span>@string (</span><span style="color:#fbe3bf;">apr</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">4</span><span style="color:#ffffff;">&quot;</span><span>)
+</span><span style="color:#ff5e5e;">@string </span><span>(may=&quot;5&quot;)
+</span><span>@string (</span><span style="color:#fbe3bf;">jun</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">6</span><span style="color:#ffffff;">&quot;</span><span>)
+</span><span style="color:#ff5e5e;">@string </span><span>(jul=&quot;7&quot;)
+</span><span>@string (</span><span style="color:#fbe3bf;">aug</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">8</span><span style="color:#ffffff;">&quot;</span><span>)
+</span><span style="color:#ff5e5e;">@string </span><span>(sep=&quot;9&quot;)
+</span><span>@string (</span><span style="color:#fbe3bf;">oct</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">10</span><span style="color:#ffffff;">&quot;</span><span>)
+</span><span style="color:#ff5e5e;">@string </span><span>(nov=&quot;11&quot;)
+</span><span>@string (</span><span style="color:#fbe3bf;">dec</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">12</span><span style="color:#ffffff;">&quot;</span><span>)
+</span></code></pre>
+</li>
+</ol>
+<h2 id="a-final-note">A final note</h2>
+<p>If you use and improve upon my macros,
+make sure to link back to my post and/or notify me
+if you do a write up on them. I am interested in the alternative
+solution you come up with!</p>
+
+
+
+
+    <div id="references">
+    
+    
+        <h2>References</h2>
+        <dl>
+        
+            
+    <dt class="ref-num" id="bibref-zola:footnotes:render">[1]</dt>
+    <dd>
+
+    
+        
+    getzola/zola,
+    Footnotes do not render correctly,
+    
+    2020,
+    
+        <a href="https://github.com/getzola/zola/issues/1070" target="_blank">https://github.com/getzola/zola/issues/1070</a>
+    
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-zola:footnotes:enhancement">[2]</dt>
+    <dd>
+
+    
+        
+    getzola/zola,
+    Markdown footnotes enhancement,
+    
+    2021,
+    
+        <a href="https://github.com/getzola/zola/issues/1285" target="_blank">https://github.com/getzola/zola/issues/1285</a>
+    
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-danimolina">[3]</dt>
+    <dd>
+
+    
+        
+    Daniel Molina,
+    Automatic list of papers using Zola and Bibtex,
+    
+    2023,
+    
+        <a href="https://www.danimolina.net/en/posts/bibtex-papers/" target="_blank">https://www.danimolina.net/en/posts/bibtex-papers/</a>
+    
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-zola:overview">[4]</dt>
+    <dd>
+
+    
+        
+    Vincent Prouillet,
+    Zola - Templates - Overview,
+    
+    
+    
+        <a href="https://www.getzola.org/documentation/templates/overview/" target="_blank">https://www.getzola.org/documentation/templates/overview/</a>
+    
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-zola:shortcodes">[5]</dt>
+    <dd>
+
+    
+        
+    Vincent Prouillet,
+    Zola - Shortcodes,
+    
+    
+    
+        <a href="https://www.getzola.org/documentation/content/shortcodes/" target="_blank">https://www.getzola.org/documentation/content/shortcodes/</a>
+    
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-tera:macros">[6]</dt>
+    <dd>
+
+    
+        
+    Vincent Prouillet,
+    Zola - Macros,
+    
+    
+    
+        <a href="https://keats.github.io/tera/docs/#macros" target="_blank">https://keats.github.io/tera/docs/#macros</a>
+    
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-tera">[7]</dt>
+    <dd>
+
+    
+        
+    Vincent Prouillet,
+    Tera - A powerful, easy to use template engine for Rust,
+    
+    
+    
+        <a href="https://keats.github.io/tera/" target="_blank">https://keats.github.io/tera/</a>
+    
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-bibtex:entrytypes">[8]</dt>
+    <dd>
+
+    
+        
+    
+    The 14 BibTeX entry types,
+    
+    
+    
+        <a href="https://www.bibtex.com/e/entry-types/" target="_blank">https://www.bibtex.com/e/entry-types/</a>
+    
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-bibtex:ieee">[9]</dt>
+    <dd>
+
+    
+        
+    Jack Caulfield,
+    IEEE Reference Page | Example & Format,
+    
+    2022,
+    
+        <a href="https://www.scribbr.com/ieee/ieee-reference-page/" target="_blank">https://www.scribbr.com/ieee/ieee-reference-page/</a>
+    
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-CitekeyArticle">[10]</dt>
+    <dd>
+
+    
+        
+    P. J. Cohen, 
+    "The independence of the continuum hypothesis", 
+    <em>Proceedings of the National Academy of Sciences</em>, 
+    vol. 50, 
+    6, 
+    pp. 1143-1148,
+    
+    1963
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-CitekeyBook">[11]</dt>
+    <dd>
+
+    
+        
+    Leonard Susskind and George Hrabovsky, 
+    <em>Classical mechanics: the theoretical minimum</em>, 
+    
+    Penguin Random House, 
+    2014
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-CitekeyInproceedings">[12]</dt>
+    <dd>
+
+    
+        
+    Holleis, Paul and Wagner, Matthias and Koolwaaij, Johan, 
+    "Studying mobile context-aware social services in the wild," 
+    in <em>Proc. of the 6th Nordic Conf. on Human-Computer Interaction</em>, 
+    New York, NY,
+    2010, 
+    pp. 207-216
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-CitekeyManual">[13]</dt>
+    <dd>
+
+    
+        
+    R Core Team, 
+    <em>R: A Language and Environment for Statistical Computing</em>,
+    R Foundation for Statistical Computing,
+    Vienna, Austria, 
+    
+    
+    2018.
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-CitekeyMastersthesis">[14]</dt>
+    <dd>
+
+    
+        
+    
+    Jian Tang, 
+    "Spin structure of the nucleon in the asymptotic limit," 
+    M.S. Thesis,
+    Massachusetts Institute of Technology,
+    Cambridge, MA, 
+    1996
+
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-CitekeyPhdthesis">[15]</dt>
+    <dd>
+
+    
+        
+    
+    Rempel, Robert Charles, 
+    "Relaxation Effects for Coupled Nuclear Spins," 
+    Ph.D. dissertation,
+    Stanford University,
+    Stanford, CA, 
+    1956
+
+
+    
+
+</dd>
+
+        
+            
+    <dt class="ref-num" id="bibref-rfc6749">[16]</dt>
+    <dd>
+
+    
+        
+    Dick Hardt,
+    The OAuth 2.0 Authorization Framework,
+    RFC Editor,
+    2012,
+    
+        <a href="https://doi.org/10.17487/RFC6749">10.17487/RFC6749</a>
+    
+
+    
+
+</dd>
+
+        
+        </dl>
+    
+    </div>
+
+
+<aside class="license">
+    <p>
+        Using BibTeX for referencing in Zola &copy; 2023 by 
+        
+        Michael Hertig
+        
+        is licensed under 
+        
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
+        
+    </p>
+
+    
+</aside>
+
+
+
+
+  </main>
+
+  <footer>
+    <div class="links">
+      <a rel="me" href="https://infosec.exchange/@hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#at-sign" />
+</svg>
+
+        Fediverse
+      </a>
+      <a href="https://codeberg.org/hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#git-pull-request" />
+</svg>
+
+        Codeberg
+      </a>
+      <a href="https://github.com/hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#github" />
+</svg>
+
+        Github
+      </a>
+      <a href="https://hertig.blog/atom.xml">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#rss" />
+</svg>
+
+        RSS
+      </a>
+      <a href="https://hertig.blog/about/#get-in-touch">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#mail" />
+</svg>
+
+        Contact
+      </a>
+    </div>
+    
+  </footer>
+
+  <a href="#" id="back-to-top" class="hidden" title="Back to top">
+    
+<svg class="feather " role="img" >
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#arrow-up" />
+</svg>
+
+  </a>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name=”robots” content=”noai, noimageai”>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+    <title>Implementing toggleable dark mode on a website | hertig.blog</title>
+  
+
+  <link rel="shortcut icon" type="image/png" href="https://hertig.blog/favicon-128.png" />
+
+  
+    <link rel="alternate" type="application/atom+xml" title="RSS" href="https://hertig.blog/atom.xml">
+  
+
+  <meta property="og:type" content="website" />
+
+  
+    <meta property="og:url" content="https:&#x2F;&#x2F;hertig.blog&#x2F;posts&#x2F;implementing-toggleable-dark-mode-on-a-website&#x2F;" />
+  
+  
+  
+    
+    <meta property="og:image" content="https:&#x2F;&#x2F;hertig.blog&#x2F;processed_images&#x2F;banner.ef2f15d365e11cda.png">
+  
+
+  
+    
+      <meta name="description" content="A minimalistic way to implement dark mode support on any website, respecting the browsers preferred theme, while still allowing to manually toggle between light and dark" />
+    
+  
+
+  <link rel="stylesheet" href="https://hertig.blog/main.css" />
+  
+  <script src="https://hertig.blog/main.js"></script>
+  
+  
+  
+  <script src="https://cdn.usefathom.com/script.js" data-site="GTKPIRBR" defer></script>
+  
+
+  
+
+  <meta name="fediverse:creator" content="@hertg@infosec.exchange" />
+
+  
+
+
+<meta name="author" content="Michael Hertig">
+
+
+
+</head>
+
+<body>
+
+  <header>
+    <nav>
+
+      <a href="https://hertig.blog/" aria-label="Home">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#home" />
+</svg>
+
+      </a>
+      
+      
+      
+        
+        
+          <a href="https:&#x2F;&#x2F;hertig.blog&#x2F;posts&#x2F;" >
+          
+              Blog
+          
+          </a>
+        
+      
+        
+        
+          <a href="https:&#x2F;&#x2F;hertig.blog&#x2F;about&#x2F;" >
+          
+              About
+          
+          </a>
+        
+      
+
+    </nav>
+    <div id="menu-actions">
+      <button class="icon-only" id="dark-mode-toggle" aria-label="Toggle light and dark mode">
+        
+<svg class="feather light-only" role="img" >
+    <title>Switch to dark mode</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#moon" />
+</svg>
+
+        
+<svg class="feather dark-only" role="img" >
+    <title>Switch to light mode</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#sun" />
+</svg>
+
+      </button>
+    </div>
+  </header>
+
+  <main>
+    
+
+<h1 class="title">
+  Implementing toggleable dark mode on a website
+</h1>
+
+
+<p class="attention-grabber">
+	A minimalistic way to implement dark mode support on any website, respecting the browsers preferred theme, while still allowing to manually toggle between light and dark
+</p>
+
+
+<div id="metadata">
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Published on</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#globe" />
+</svg>
+ 
+        <time datetime="2023-11-12">November 12, 2023</time>
+    </div>
+    
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Reading time</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#book-open" />
+</svg>
+ 
+        4 minutes
+    </div>
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Authored by</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#user" />
+</svg>
+ 
+        
+        Michael Hertig
+        
+    </div>
+    
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#tag" />
+</svg>
+
+        
+            <a href="https://hertig.blog/tags/dev/" class="tag">dev</a>
+        
+            <a href="https://hertig.blog/tags/guide/" class="tag">guide</a>
+        
+    </div>
+    
+</div>
+
+
+    <div class="banner">
+    
+    
+        
+        <img src="https:&#x2F;&#x2F;hertig.blog&#x2F;processed_images&#x2F;banner.ef2f15d365e11cda.png"  />
+        
+    
+    </div>
+
+
+<h2 id="features">Features</h2>
+<p>Here is a list of what features and potential
+issues have been taken into consideration
+while writing this guide:</p>
+<ul>
+<li><strong>Minimal code required</strong><br />
+The amount of <abbr title="Single lines of code">SLOC</abbr> have been
+reduced to a minimum</li>
+<li><strong>Respecting the users preferences</strong><br />
+If the browser prefers dark mode, give them dark mode</li>
+<li><strong>Toggle</strong><br />
+Users can manually switch between modes</li>
+<li><strong>No cookies</strong><br />
+Selected mode is persisted to <code>localStorage</code></li>
+<li><strong>Good <abbr title="User Experience">UX</abbr>, no <abbr title="Flash of unstyled content">FOUC</abbr></strong><br />
+Page will not flash white on dark mode</li>
+</ul>
+<hr />
+<h2 id="adding-the-theme-switch-toggle">Adding the theme switch toggle</h2>
+<p>First, add a simple toggle element to your page.
+This can be anything, and you are free to switch it up
+to whatever you like.</p>
+<p>In my example, I'm creating a simple <code>&lt;div&gt;</code> that will
+be the clickable toggle, and inside is the icon to be shown
+as the toggle button. This will display a <a href="https://feathericons.com">feather icon</a> of a moon
+to switch to dark mode, and a sun icon to switch to light mode.</p>
+<pre data-lang="html" style="background-color:#191919;color:#f8f8f2;" class="language-html "><code class="language-html" data-lang="html"><span>&lt;</span><span style="color:#ff5e5e;">div </span><span style="color:#66a9ec;">id</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">dark-mode-toggle</span><span style="color:#ffffff;">&quot;</span><span>&gt;
+</span><span>  &lt;</span><span style="color:#ff5e5e;">i </span><span style="color:#97d8ea;">class</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">light-only</span><span style="color:#ffffff;">&quot; </span><span style="color:#97d8ea;">data-feather</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">moon</span><span style="color:#ffffff;">&quot;</span><span>&gt;&lt;/</span><span style="color:#ff5e5e;">i</span><span>&gt;
+</span><span>  &lt;</span><span style="color:#ff5e5e;">i </span><span style="color:#97d8ea;">class</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">dark-only</span><span style="color:#ffffff;">&quot; </span><span style="color:#97d8ea;">data-feather</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">sun</span><span style="color:#ffffff;">&quot;</span><span>&gt;&lt;/</span><span style="color:#ff5e5e;">i</span><span>&gt;
+</span><span>&lt;/</span><span style="color:#ff5e5e;">div</span><span>&gt;
+</span></code></pre>
+<p>We will later add a click listener to the <code>#dark-mode-toggle</code> ID
+and add some CSS to make <code>.light-only</code> only appear in light-mode,
+and <code>.dark-only</code> only in dark-mode.</p>
+<h2 id="styling-the-toggle-button">Styling the toggle button</h2>
+<p>For the sake of simplicity, I'm not going to style
+the toggle button any further. This code simply adds
+a <code>pointer</code> cursor when hovering over the toggle button,
+and it will make sure that only one of the icons is shown at a time.</p>
+<pre data-lang="css" style="background-color:#191919;color:#f8f8f2;" class="language-css "><code class="language-css" data-lang="css"><span style="color:#66a9ec;">#dark-mode-toggle </span><span>{
+</span><span>    </span><span style="color:#fbe3bf;">cursor</span><span>: </span><span style="color:#fdb082;">pointer</span><span>;
+</span><span>}
+</span><span>
+</span><span style="color:#ff5e5e;">html</span><span style="color:#66a9ec;">[</span><span style="color:#97d8ea;">data-theme</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">dark</span><span style="color:#ffffff;">&quot;</span><span style="color:#66a9ec;">] .</span><span style="color:#97d8ea;">light-only </span><span>{
+</span><span>    </span><span style="color:#fbe3bf;">display</span><span>: </span><span style="color:#fdb082;">none</span><span>;
+</span><span>}
+</span><span>
+</span><span style="color:#ff5e5e;">html</span><span style="color:#66a9ec;">[</span><span style="color:#97d8ea;">data-theme</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">light</span><span style="color:#ffffff;">&quot;</span><span style="color:#66a9ec;">] .</span><span style="color:#97d8ea;">dark-only </span><span>{
+</span><span>    </span><span style="color:#fbe3bf;">display</span><span>: </span><span style="color:#fdb082;">none</span><span>;
+</span><span>}
+</span></code></pre>
+<p>The <code>[data-theme]</code> attribute referenced here is a
+custom data attribute that we will add to the
+<code>&lt;html&gt;</code> element in the next step.</p>
+<h2 id="load-theme-or-use-browser-default">Load theme or use browser default</h2>
+<p>Unfortunately, a few lines of JavaScript are necessary
+to make this all work. The following code is just plain
+old JavaScript, no need for any frontend frameworks or bundlers.</p>
+<pre data-lang="javascript" style="background-color:#191919;color:#f8f8f2;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="font-style:italic;color:#fbdfb5;">var </span><span style="color:#e9fdac;">theme </span><span style="color:#ff5e5e;">= </span><span style="color:#e9fdac;">localStorage</span><span>.</span><span style="color:#6699cc;">getItem</span><span>(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">theme</span><span style="color:#ffffff;">&quot;</span><span>);
+</span><span style="color:#ff5e5e;">if </span><span>(</span><span style="color:#ff5e5e;">!</span><span style="color:#e9fdac;">theme</span><span>) {
+</span><span>    </span><span style="font-style:italic;color:#fbdfb5;">var </span><span style="color:#e9fdac;">prefersDark </span><span style="color:#ff5e5e;">= </span><span>window.</span><span style="color:#8cdaff;">matchMedia</span><span>(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">(prefers-color-scheme: dark)</span><span style="color:#ffffff;">&quot;</span><span>);
+</span><span>    </span><span style="color:#e9fdac;">theme </span><span style="color:#ff5e5e;">= </span><span style="color:#e9fdac;">prefersDark </span><span style="color:#ff5e5e;">? </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">dark</span><span style="color:#ffffff;">&quot; </span><span style="color:#ff5e5e;">: </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">light</span><span style="color:#ffffff;">&quot;</span><span>;
+</span><span>}
+</span><span style="color:#8cdaff;">setTheme</span><span>(</span><span style="color:#e9fdac;">theme</span><span>);
+</span><span>
+</span><span style="font-style:italic;color:#fbdfb5;">function </span><span style="color:#8cdaff;">setTheme</span><span style="color:#ffffff;">(</span><span style="font-style:italic;color:#fc9354;">theme</span><span style="color:#ffffff;">) </span><span>{
+</span><span>    </span><span style="color:#e9fdac;">localStorage</span><span>.</span><span style="color:#6699cc;">setItem</span><span>(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">theme</span><span style="color:#ffffff;">&quot;</span><span>, </span><span style="color:#e9fdac;">theme</span><span>);
+</span><span>    document.documentElement.</span><span style="color:#6699cc;">setAttribute</span><span>(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">data-theme</span><span style="color:#ffffff;">&quot;</span><span>, </span><span style="color:#e9fdac;">theme</span><span>);
+</span><span>}
+</span></code></pre>
+<p>This code does the following:</p>
+<ol>
+<li>Check whether a theme has already been stored in <code>localStorage</code></li>
+<li>If nothing is stored yet, select the default theme based
+on the preferences reported by the browser</li>
+<li>Store the (auto-) selected theme to <code>localStorage</code> and
+set the <code>[data-theme]</code> attribute on the <code>&lt;html&gt;</code> element.</li>
+</ol>
+<aside class="callout" >
+	<div class="icon">
+		<svg class="feather-inline" role="img" aria-hidden="true">
+			
+			
+			<use href="https://hertig.blog/vendor/feather-sprite.svg#book-open" />
+			
+		</svg>
+	</div>
+
+	
+	<div class="content">
+		Notice, how the JavaScript code runs immediately and doesn't need to 
+wait on <code>DOMContentLoaded</code> or be placed at the bottom of the page. 
+In fact, it shouldn't. A delayed execution of that code would lead to 
+<abbr title="Flash of unstyled content">FOUC</abbr> on full page navigation 
+or refresh (e.g. <a href="https://dev.to/rinas/toggle-dark-and-sunny-mode-using-alpinejs-tailwindcss-and-localstorage-7fo#comment-1ioo0">the page flashing white before dark mode is applied</a>).
+	</div>
+</aside>
+<p>This will result in your website always having
+the <code>data-theme</code> attribute automatically set on the <code>&lt;html&gt;</code>
+root element.</p>
+<pre data-lang="html" style="background-color:#191919;color:#f8f8f2;" class="language-html "><code class="language-html" data-lang="html"><span style="color:#6d6d6d;">&lt;!-- example result of the code above --&gt;
+</span><span>&lt;</span><span style="color:#ff5e5e;">html </span><span style="color:#97d8ea;">data-theme</span><span>=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">dark</span><span style="color:#ffffff;">&quot;</span><span>&gt;
+</span></code></pre>
+<h2 id="allow-to-manually-change-the-theme-via-toggle">Allow to manually change the theme via toggle</h2>
+<p>The next vital step is to wait for the DOM content to
+be loaded and then attempt to register a <code>click</code> event listener
+on the <code>#dark-mode-toggle</code> element which will toggle between
+<code>dark</code> and <code>light</code> when clicked.</p>
+<pre data-lang="javascript" style="background-color:#191919;color:#f8f8f2;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>document.</span><span style="color:#6699cc;">addEventListener</span><span>(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">DOMContentLoaded</span><span style="color:#ffffff;">&quot;</span><span>, </span><span style="color:#e9fdac;">onLoad</span><span>);
+</span><span>
+</span><span style="font-style:italic;color:#fbdfb5;">function </span><span style="color:#8cdaff;">onLoad</span><span style="color:#ffffff;">() </span><span>{
+</span><span>    </span><span style="font-style:italic;color:#fbdfb5;">var </span><span style="color:#e9fdac;">darkModeToggle </span><span style="color:#ff5e5e;">= </span><span>document.</span><span style="color:#6699cc;">getElementById</span><span>(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">dark-mode-toggle</span><span style="color:#ffffff;">&quot;</span><span>);
+</span><span>    </span><span style="color:#ff5e5e;">if </span><span>(</span><span style="color:#e9fdac;">darkModeToggle</span><span>) {
+</span><span>        </span><span style="color:#e9fdac;">darkModeToggle</span><span>.</span><span style="color:#6699cc;">addEventListener</span><span>(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">click</span><span style="color:#ffffff;">&quot;</span><span>, </span><span style="font-style:italic;color:#fbdfb5;">function </span><span style="color:#ffffff;">(</span><span style="font-style:italic;color:#fc9354;">_</span><span style="color:#ffffff;">) </span><span>{
+</span><span>            </span><span style="font-style:italic;color:#fbdfb5;">var </span><span style="color:#e9fdac;">currentTheme </span><span style="color:#ff5e5e;">= </span><span style="color:#e9fdac;">localStorage</span><span>.</span><span style="color:#6699cc;">getItem</span><span>(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">theme</span><span style="color:#ffffff;">&quot;</span><span>);
+</span><span>            </span><span style="color:#8cdaff;">setTheme</span><span>(</span><span style="color:#e9fdac;">currentTheme </span><span style="color:#ff5e5e;">== </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">dark</span><span style="color:#ffffff;">&quot; </span><span style="color:#ff5e5e;">? </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">light</span><span style="color:#ffffff;">&quot; </span><span style="color:#ff5e5e;">: </span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">dark</span><span style="color:#ffffff;">&quot;</span><span>);
+</span><span>        });
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h2 id="implementing-the-actual-themes">Implementing the actual themes</h2>
+<p>How to go about designing accessible dark and light
+themes for a website is outside the scope of this post.
+But the following CSS can give you an idea on where to start
+by using <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">CSS variables</a>.</p>
+<pre data-lang="css" style="background-color:#191919;color:#f8f8f2;" class="language-css "><code class="language-css" data-lang="css"><span style="color:#66a9ec;">:</span><span>root {
+</span><span>    </span><span style="color:#fbe3bf;">--background-color</span><span>: </span><span style="color:#6699cc;">rgb</span><span>(</span><span style="color:#fdb082;">255</span><span>, </span><span style="color:#fdb082;">255</span><span>, </span><span style="color:#fdb082;">255</span><span>);
+</span><span>    </span><span style="color:#fbe3bf;">--text-color</span><span>: </span><span style="color:#6699cc;">rgb</span><span>(</span><span style="color:#fdb082;">10</span><span>, </span><span style="color:#fdb082;">10</span><span>, </span><span style="color:#fdb082;">10</span><span>);
+</span><span>    </span><span style="color:#fbe3bf;">--anchor-color</span><span>: </span><span style="color:#6699cc;">rgb</span><span>(</span><span style="color:#fdb082;">32</span><span>, </span><span style="color:#fdb082;">32</span><span>, </span><span style="color:#fdb082;">255</span><span>);
+</span><span>    </span><span style="color:#fbe3bf;">--accent</span><span>: </span><span style="color:#6699cc;">rgb</span><span>(</span><span style="color:#fdb082;">255</span><span>, </span><span style="color:#fdb082;">155</span><span>, </span><span style="color:#fdb082;">223</span><span>);
+</span><span>    </span><span style="color:#fbe3bf;">--accent-contrast</span><span>: </span><span style="color:#6699cc;">rgb</span><span>(</span><span style="color:#fdb082;">255</span><span>, </span><span style="color:#fdb082;">255</span><span>, </span><span style="color:#fdb082;">255</span><span>);
+</span><span>}
+</span><span>
+</span><span style="color:#66a9ec;">:</span><span>root</span><span style="color:#66a9ec;">[</span><span style="color:#97d8ea;">data-theme</span><span style="color:#ff5e5e;">=</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">dark</span><span style="color:#ffffff;">&quot;</span><span style="color:#66a9ec;">] </span><span>{
+</span><span>    </span><span style="color:#fbe3bf;">--background-color</span><span>: </span><span style="color:#6699cc;">rgb</span><span>(</span><span style="color:#fdb082;">16</span><span>, </span><span style="color:#fdb082;">16</span><span>, </span><span style="color:#fdb082;">16</span><span>);
+</span><span>    </span><span style="color:#fbe3bf;">--text-color</span><span>: </span><span style="color:#6699cc;">rgb</span><span>(</span><span style="color:#fdb082;">230</span><span>, </span><span style="color:#fdb082;">230</span><span>, </span><span style="color:#fdb082;">230</span><span>);
+</span><span>    </span><span style="color:#fbe3bf;">--anchor-color</span><span>: </span><span style="color:#6699cc;">rgb</span><span>(</span><span style="color:#fdb082;">185</span><span>, </span><span style="color:#fdb082;">185</span><span>, </span><span style="color:#fdb082;">255</span><span>);
+</span><span>    </span><span style="color:#fbe3bf;">--accent</span><span>: </span><span style="color:#6699cc;">rgb</span><span>(</span><span style="color:#fdb082;">255</span><span>, </span><span style="color:#fdb082;">155</span><span>, </span><span style="color:#fdb082;">223</span><span>);
+</span><span>    </span><span style="color:#fbe3bf;">--accent-contrast</span><span>: </span><span style="color:#6699cc;">rgb</span><span>(</span><span style="color:#fdb082;">255</span><span>, </span><span style="color:#fdb082;">255</span><span>, </span><span style="color:#fdb082;">255</span><span>);
+</span><span>
+</span><span>    img {
+</span><span>        </span><span style="color:#fbe3bf;">filter</span><span>: </span><span style="color:#6699cc;">grayscale</span><span>(</span><span style="color:#fdb082;">30</span><span style="color:#ff5e5e;">%</span><span>);
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>Then use those variables in the styling
+of your website, for example:</p>
+<pre data-lang="css" style="background-color:#191919;color:#f8f8f2;" class="language-css "><code class="language-css" data-lang="css"><span style="color:#ff5e5e;">body </span><span>{
+</span><span>    </span><span style="color:#fbe3bf;">background-color</span><span>: </span><span style="color:#6699cc;">var</span><span>(</span><span style="color:#fbe3bf;">--background-color</span><span>);
+</span><span>    </span><span style="color:#fbe3bf;">color</span><span>: </span><span style="color:#6699cc;">var</span><span>(</span><span style="color:#fbe3bf;">--text-color</span><span>);
+</span><span>}
+</span></code></pre>
+<p>Some general tips I can provide are:</p>
+<ul>
+<li>Do not use a full black <code>#000000</code> color,
+neither for text nor background</li>
+<li>Use (slightly) different link and accent colors
+in dark mode. They can have a very different aesthetic
+on different backgrounds</li>
+<li>Reducing saturation or opacity to make images look less aggressive</li>
+</ul>
+<h2 id="achieving-a-smooth-transition-between-dark-and-light-mode">Achieving a smooth transition between dark and light mode</h2>
+<p>If you want a smooth transition between the themes,
+you can achieve that by adding a <code>transition</code> for
+background and text color to your CSS.</p>
+<pre data-lang="css" style="background-color:#191919;color:#f8f8f2;" class="language-css "><code class="language-css" data-lang="css"><span style="color:#ff5e5e;">* </span><span>{
+</span><span>    </span><span style="color:#fbe3bf;">transition</span><span>: </span><span style="color:#fdb082;">background-color .33</span><span style="color:#ff5e5e;">s</span><span>, </span><span style="color:#fdb082;">color .33</span><span style="color:#ff5e5e;">s</span><span>;
+</span><span>}
+</span></code></pre>
+<hr />
+<h2 id="further-reading">Further reading</h2>
+<p>I found the following resources helpful in the writing
+of this blog post.</p>
+<ul>
+<li><a href="https://css-tricks.com/a-complete-guide-to-dark-mode-on-the-web/">A Complete Guide to Dark Mode on the Web</a></li>
+</ul>
+
+
+
+
+
+<aside class="license">
+    <p>
+        Implementing toggleable dark mode on a website &copy; 2023 by 
+        
+        Michael Hertig
+        
+        is licensed under 
+        
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
+        
+    </p>
+
+    
+</aside>
+
+
+
+
+  </main>
+
+  <footer>
+    <div class="links">
+      <a rel="me" href="https://infosec.exchange/@hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#at-sign" />
+</svg>
+
+        Fediverse
+      </a>
+      <a href="https://codeberg.org/hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#git-pull-request" />
+</svg>
+
+        Codeberg
+      </a>
+      <a href="https://github.com/hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#github" />
+</svg>
+
+        Github
+      </a>
+      <a href="https://hertig.blog/atom.xml">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#rss" />
+</svg>
+
+        RSS
+      </a>
+      <a href="https://hertig.blog/about/#get-in-touch">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#mail" />
+</svg>
+
+        Contact
+      </a>
+    </div>
+    
+  </footer>
+
+  <a href="#" id="back-to-top" class="hidden" title="Back to top">
+    
+<svg class="feather " role="img" >
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#arrow-up" />
+</svg>
+
+  </a>
+</body>
+</html>
