@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name=”robots” content=”noai, noimageai”>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+    <title>Accessing the request body in Play Framework Filters | hertig.blog</title>
+  
+
+  <link rel="shortcut icon" type="image/png" href="https://hertig.blog/favicon-128.png" />
+
+  
+    <link rel="alternate" type="application/atom+xml" title="RSS" href="https://hertig.blog/atom.xml">
+  
+
+  <meta property="og:type" content="website" />
+
+  
+    <meta property="og:url" content="https:&#x2F;&#x2F;hertig.blog&#x2F;posts&#x2F;accessing-request-body-in-play-framework-filters&#x2F;" />
+  
+  
+  
+    
+    <meta property="og:image" content="https:&#x2F;&#x2F;hertig.blog&#x2F;processed_images&#x2F;banner.eb72f4b09dbfca58.png">
+  
+
+  
+    
+      <meta name="description" content="A highly performant way to extract data from the raw request body and pass on information to subsequent Filters and Actions based on it. With an example of how to parse bearer tokens as per RFC 6750." />
+    
+  
+
+  <link rel="stylesheet" href="https://hertig.blog/main.css" />
+  
+  <script src="https://hertig.blog/main.js"></script>
+  
+  
+  
+  <script src="https://cdn.usefathom.com/script.js" data-site="GTKPIRBR" defer></script>
+  
+
+  
+
+  <meta name="fediverse:creator" content="@hertg@infosec.exchange" />
+
+  
+
+
+<meta name="author" content="Michael Hertig">
+
+
+
+</head>
+
+<body>
+
+  <header>
+    <nav>
+
+      <a href="https://hertig.blog/" aria-label="Home">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#home" />
+</svg>
+
+      </a>
+      
+      
+      
+        
+        
+          <a href="https:&#x2F;&#x2F;hertig.blog&#x2F;posts&#x2F;" >
+          
+              Blog
+          
+          </a>
+        
+      
+        
+        
+          <a href="https:&#x2F;&#x2F;hertig.blog&#x2F;about&#x2F;" >
+          
+              About
+          
+          </a>
+        
+      
+
+    </nav>
+    <div id="menu-actions">
+      <button class="icon-only" id="dark-mode-toggle" aria-label="Toggle light and dark mode">
+        
+<svg class="feather light-only" role="img" >
+    <title>Switch to dark mode</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#moon" />
+</svg>
+
+        
+<svg class="feather dark-only" role="img" >
+    <title>Switch to light mode</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#sun" />
+</svg>
+
+      </button>
+    </div>
+  </header>
+
+  <main>
+    
+
+<h1 class="title">
+  Accessing the request body in Play Framework Filters
+</h1>
+
+
+<p class="attention-grabber">
+	A highly performant way to extract data from the raw request body and pass on information to subsequent Filters and Actions based on it. With an example of how to parse bearer tokens as per RFC 6750.
+</p>
+
+
+<div id="metadata">
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Published on</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#globe" />
+</svg>
+ 
+        <time datetime="2024-05-26">May 26, 2024</time>
+    </div>
+    
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Reading time</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#book-open" />
+</svg>
+ 
+        11 minutes
+    </div>
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    <title>Authored by</title>
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#user" />
+</svg>
+ 
+        
+        Michael Hertig
+        
+    </div>
+    
+    
+    <div class="item">
+        
+<svg class="feather-inline " role="img">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#tag" />
+</svg>
+
+        
+            <a href="https://hertig.blog/tags/dev/" class="tag">dev</a>
+        
+            <a href="https://hertig.blog/tags/guide/" class="tag">guide</a>
+        
+            <a href="https://hertig.blog/tags/playframework/" class="tag">playframework</a>
+        
+    </div>
+    
+</div>
+
+
+    <div class="banner">
+    
+    
+        
+        <img src="https:&#x2F;&#x2F;hertig.blog&#x2F;processed_images&#x2F;banner.eb72f4b09dbfca58.png" alt="Play Framework Logo next to a filter icon" />
+        
+    
+    </div>
+
+
+<p>I am writing this blog post to publish some information that I was desperately looking for recently. There are questions about it on different forums, but nowhere did I find the answers that I was searching for.</p>
+<p>I think the best information that I've found was <a href="https://stackoverflow.com/a/29064848">this answer</a> on Stack Overflow, together with the source code of Play's <a href="https://github.com/playframework/playframework/blob/main/web/play-filters-helpers/src/main/scala/play/filters/csrf/CSRFActions.scala">CsrfFilter</a>. Fortunately, I have some knowledge about Scala and <del>Akka Streams</del> <ins>Pekko Streams</ins>, which helped me piece this together.</p>
+<aside class="callout" >
+	<div class="icon">
+		<svg class="feather-inline" role="img" aria-hidden="true">
+			
+			
+			<use href="https://hertig.blog/vendor/feather-sprite.svg#skip-forward" />
+			
+		</svg>
+	</div>
+
+	
+	<div class="content">
+		Don't care about potential easier solutions and explanations? 
+Then you can <a href="#using-a-play-filter">skip ahead</a>.
+	</div>
+</aside><h2 id="why-this-might-be-helpful">Why this might be helpful</h2>
+<p>In Play Framework, there are two distinct ways of intercepting requests, and they offer different features: <em><a href="https://www.playframework.com/documentation/3.0.x/Filters">Filters</a></em> and <em><a href="https://www.playframework.com/documentation/3.0.x/JavaActionsComposition">Actions</a></em>. From a user perspective, the key differences are:</p>
+<ul>
+<li>A <em>Filter</em>, when enabled in the config, captures <strong>every</strong> incoming request; an <em>Action</em> must be explicitly added to controllers or methods in the source code.</li>
+<li>A <em>Filter</em> receives a <code>RequestHeader</code> parameter without the parsed body; an <em>Action</em> receives a <code>Request</code> parameter, which includes the request body.</li>
+</ul>
+<p>So, what if you want to intercept every request <strong>and</strong> access the body? Or what if you aim to reject a request based on data at the beginning of its body, but before the whole thing is parsed?</p>
+<h3 id="my-use-case">My Use-Case</h3>
+<p>I wish to create a Play Filter that will check every incoming request for access tokens (i.e. bearer tokens) as defined by <a href="https://www.rfc-editor.org/info/rfc6750">RFC 6750</a>. When a token is present, it should be extracted and added to the request attributes as <code>RAW_ACCESS_TOKEN</code>, which may then be processed further by subsequent Filters. The culprit: As per <a href="https://datatracker.ietf.org/doc/html/rfc6750#section-2.2">Section 2.2</a>, an access token may also be sent in the request body (instead of the <code>Authorization</code> header or via query parameters).</p>
+<p>By figuring out how to access the raw request body within a filter, I can reject an incoming request before the entire body has been processed, and therefore prevent unnecessary computation. Think of a large file upload, where the access token is sent in the first form field inside the body. If I can already tell that the access token is missing or invalid before the whole upload is processed, I can prevent unnecessary load on the server. Why should I accept and parse a full file upload if I can already tell that it's unauthorized at the start?</p>
+<h2 id="using-an-action-creator">Using an Action Creator</h2>
+<aside class="callout" >
+	<div class="icon">
+		<svg class="feather-inline" role="img" aria-hidden="true">
+			
+			
+			<use href="https://hertig.blog/vendor/feather-sprite.svg#alert-triangle" />
+			
+		</svg>
+	</div>
+
+	
+	<div class="content">
+		This solution may work for you, so I am including it here. I'd not recommend going this route because it has some drawbacks that will be mentioned below.
+	</div>
+</aside>
+<p>By creating a custom <a href="https://www.playframework.com/documentation/3.0.x/JavaActionCreator#Action-creators">Action Creator</a>, and configuring it to run before the Action Composition, you can easily create a Filter-like Action that will capture every incoming request, and you'll have access to the parsed request body.</p>
+<pre data-lang="java" style="background-color:#191919;color:#f8f8f2;" class="language-java "><code class="language-java" data-lang="java"><span style="color:#6d6d6d;">// ActionCreator.java
+</span><span style="color:#ff5e5e;">import </span><span style="color:#fbe3bf;">java</span><span>.</span><span style="color:#fbe3bf;">lang</span><span>.</span><span style="color:#fbe3bf;">reflect</span><span>.</span><span style="color:#fbe3bf;">Method</span><span>;
+</span><span style="color:#ff5e5e;">import </span><span style="color:#fbe3bf;">java</span><span>.</span><span style="color:#fbe3bf;">util</span><span>.</span><span style="color:#fbe3bf;">concurrent</span><span>.</span><span style="color:#fbe3bf;">CompletionStage</span><span>;
+</span><span style="color:#ff5e5e;">import </span><span style="color:#fbe3bf;">play</span><span>.</span><span style="color:#fbe3bf;">mvc</span><span>.</span><span style="color:#fbe3bf;">Action</span><span>;
+</span><span style="color:#ff5e5e;">import </span><span style="color:#fbe3bf;">play</span><span>.</span><span style="color:#fbe3bf;">mvc</span><span>.</span><span style="color:#fbe3bf;">Http</span><span>;
+</span><span style="color:#ff5e5e;">import </span><span style="color:#fbe3bf;">play</span><span>.</span><span style="color:#fbe3bf;">mvc</span><span>.</span><span style="color:#fbe3bf;">Result</span><span>;
+</span><span>
+</span><span style="color:#ff5e5e;">public </span><span style="font-style:italic;color:#fbdfb5;">class </span><span style="text-decoration:underline;color:#8cdaff;">ActionCreator </span><span style="color:#ff5e5e;">implements </span><span style="text-decoration:underline;font-style:italic;color:#8cdaff;">play</span><span>.</span><span style="text-decoration:underline;font-style:italic;color:#8cdaff;">http</span><span>.</span><span style="text-decoration:underline;font-style:italic;color:#8cdaff;">ActionCreator </span><span>{
+</span><span>  @</span><span style="color:#e9fdac;">Override
+</span><span>  </span><span style="color:#ff5e5e;">public </span><span style="color:#fbe3bf;">Action </span><span style="color:#8cdaff;">createAction</span><span>(</span><span style="color:#fbe3bf;">Http</span><span>.</span><span style="color:#fbe3bf;">Request </span><span style="font-style:italic;color:#fc9354;">request</span><span>, </span><span style="color:#fbe3bf;">Method </span><span style="font-style:italic;color:#fc9354;">actionMethod</span><span>) {
+</span><span>    </span><span style="color:#ff5e5e;">return new </span><span style="color:#fbe3bf;">Action</span><span>.</span><span style="color:#fbe3bf;">Simple</span><span>() {
+</span><span>      @</span><span style="color:#e9fdac;">Override
+</span><span>      </span><span style="color:#ff5e5e;">public </span><span style="color:#fbe3bf;">CompletionStage</span><span>&lt;</span><span style="color:#fbe3bf;">Result</span><span>&gt; </span><span style="color:#8cdaff;">call</span><span>(</span><span style="color:#fbe3bf;">Http</span><span>.</span><span style="color:#fbe3bf;">Request </span><span style="font-style:italic;color:#fc9354;">req</span><span>) {
+</span><span>        </span><span style="color:#6d6d6d;">// todo: do your thing with the request here
+</span><span>        </span><span style="color:#ff5e5e;">return</span><span> delegate.</span><span style="color:#e9fdac;">call</span><span>(req);
+</span><span>      }
+</span><span>    };
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>Set it as the default in the configuration, and explicitly enable it to execute before the action composition. This way <code>attrs</code> can be added to the request, which can later be processed by other Actions before it reaches the controller.</p>
+<pre data-lang="yaml" style="background-color:#191919;color:#f8f8f2;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#6d6d6d;"># application.conf
+</span><span style="color:#fbe3bf;">play.http.actionCreator = &quot;org.example.MyActionCreator&quot;
+</span><span style="color:#fbe3bf;">play.http.actionComposition.executeActionCreatorActionFirst = true
+</span></code></pre>
+<p>There are certain drawbacks to this method:</p>
+<ul>
+<li>While it runs before <em>Actions</em>, it will still run after <em>Filters</em>, meaning that you can't use it to tag requests (e.g., adding <code>request.attrs()</code>) that may influence the behavior in <em>Filters</em>. And body-parsing has already happened, meaning that this may consume more resources.</li>
+<li>There can be only one <code>ActionCreator</code>; this could be a problem if you are implementing a library to be used in other Play Framework projects (e.g., an Auth-Library that parses access tokens from all incoming requests). By utilizing an Action Creator for this, you basically prevent the downstream project, or any other potential libraries, from doing the same.</li>
+</ul>
+<p>So, what if we want to access the request body inside a Filter? This is actually possible. But for the solution to be performant, it can get complicated, and if you are not familiar with Scala and <del>Akka Streams</del> <ins>Pekko Streams</ins>, you may be downright lost. So let me give you a starting point.</p>
+<h2 id="using-a-play-filter">Using a Play Filter</h2>
+<aside class="callout" >
+	<div class="icon">
+		<svg class="feather-inline" role="img" aria-hidden="true">
+			
+			
+			<use href="https://hertig.blog/vendor/feather-sprite.svg#alert-triangle" />
+			
+		</svg>
+	</div>
+
+	
+	<div class="content">
+		This requires Scala code as well as custom Akka Stream graph stages. But even if you are using the Java version of Play, this will not hold you back from utilizing this method, since you can simply mix Java and Scala source code in any Play project.
+	</div>
+</aside>
+<p>This is partially based on a Play Filter that you might be familiar with, because it is baked into every Play Framework: The <a href="https://github.com/playframework/playframework/blob/main/web/play-filters-helpers/src/main/scala/play/filters/csrf/CSRFActions.scala">CSRF Filter</a>.</p>
+<p>I figured that my use case is quite similar to that of the CSRF Filter because a CSRF token may also be sent via the request body (think <code>@CSRF.formField</code>).
+Unfortunately, the code inside Play Framework is not written in an easily re-usable way, so I've tried my best to base my solution on it, but add some explanations and make it re-usable.</p>
+<h3 id="parsing-the-body">Parsing the body</h3>
+<p>Remember, when using Play Filters, the request body has not yet been parsed. This means that we have to deal with the raw bytes of the incoming request body. But we also don't want to blindly parse the whole request body with a <code>BodyParser</code> just so we can extract some specific information from it. We may already know that we want to reject the requests after the first few bytes, if we encounter an obviously invalid token, for example. And also, parsing the complete body would be highly inefficient, because Play will do the same internally and thus effectively parse the body twice!</p>
+<h3 id="buffer">Buffer</h3>
+<p>Here is where my solution deviates a little bit from the way that the CSRF Filter works in Play.</p>
+<p>For my use case, I think it's sensible <strong>not</strong> to iterate over the complete request body (it could be huge) and only continue when I've found a token or reached the end of the body. Rather, I'd like
+to collect the first {N} bytes into a buffer, search it, and then continue without ever parsing any bytes that overflow this buffer.</p>
+<p>The following <code>GraphStage</code> offers the prerequisites to achieve that. If you are unfamiliar with Akka Streams, this may look like black magic to you. I added comments to the code to better explain how it works. Using it later will be simple; we can simply call it and set how large the buffer should be via parameter.</p>
+<pre data-lang="scala" style="background-color:#191919;color:#f8f8f2;" class="language-scala "><code class="language-scala" data-lang="scala"><span style="color:#6d6d6d;">// BufferFirstBytes.scala
+</span><span style="color:#ff5e5e;">package </span><span>org.example  
+</span><span>  
+</span><span style="color:#ff5e5e;">import</span><span> org.apache.pekko.stream.stage.{GraphStage, GraphStageLogic, InHandler, OutHandler}  
+</span><span style="color:#ff5e5e;">import</span><span> org.apache.pekko.stream.{Attributes, FlowShape, Inlet, Outlet}  
+</span><span style="color:#ff5e5e;">import</span><span> org.apache.pekko.util.ByteString  
+</span><span>  
+</span><span style="color:#ff5e5e;">import</span><span> scala.collection.mutable  
+</span><span>  
+</span><span style="color:#6d6d6d;">/**  
+</span><span style="color:#6d6d6d;"> * This custom graph stage will buffer the first N bytes and pass them downstream as the first element, 
+</span><span style="color:#6d6d6d;"> * if the incoming data exceeds the byteLimit, anything overflowing the buffer is sent downstream as the second element, 
+</span><span style="color:#6d6d6d;"> * any data coming in after those two elements is passed downstream as is. 
+</span><span style="color:#6d6d6d;"> * 
+</span><span style="color:#6d6d6d;"> * If the incoming data does not exceed to byteLimit and the upstream stops sending data, the data 
+</span><span style="color:#6d6d6d;"> * is sent downstream as one element of size &lt; N. 
+</span><span style="color:#6d6d6d;"> * 
+</span><span style="color:#6d6d6d;"> * </span><span style="color:#ff5e5e;">@param </span><span style="color:#6d6d6d;">byteLimit Amount of bytes that should be buffered for the first message downstream  
+</span><span style="color:#6d6d6d;"> */
+</span><span style="font-style:italic;color:#fbdfb5;">class</span><span style="text-decoration:underline;color:#8cdaff;"> BufferFirstBytes</span><span>(</span><span style="font-style:italic;color:#fc9354;">byteLimit</span><span>: </span><span style="font-style:italic;color:#fbdfb5;">Int</span><span>) </span><span style="color:#ff5e5e;">extends </span><span style="text-decoration:underline;font-style:italic;color:#8cdaff;">GraphStage</span><span>[</span><span style="color:#fbe3bf;">FlowShape</span><span>[</span><span style="color:#fbe3bf;">ByteString</span><span>, </span><span style="color:#fbe3bf;">ByteString</span><span>]] {  
+</span><span>  
+</span><span>  </span><span style="color:#ff5e5e;">private </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">in </span><span style="color:#ff5e5e;">= </span><span style="color:#ecfdb9;">Inlet</span><span>[</span><span style="color:#fbe3bf;">ByteString</span><span>](</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">BufferFirstBytes.in</span><span style="color:#ffffff;">&quot;</span><span>)  
+</span><span>  </span><span style="color:#ff5e5e;">private </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">out </span><span style="color:#ff5e5e;">= </span><span style="color:#ecfdb9;">Outlet</span><span>[</span><span style="color:#fbe3bf;">ByteString</span><span>](</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">BufferFirstBytes.out</span><span style="color:#ffffff;">&quot;</span><span>)  
+</span><span>  
+</span><span>  </span><span style="color:#ff5e5e;">override </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">shape</span><span>: </span><span style="color:#fbe3bf;">FlowShape</span><span>[</span><span style="color:#fbe3bf;">ByteString</span><span>, </span><span style="color:#fbe3bf;">ByteString</span><span>] </span><span style="color:#ff5e5e;">= </span><span style="color:#ecfdb9;">FlowShape</span><span>.of(in, out)  
+</span><span>  
+</span><span>  </span><span style="color:#ff5e5e;">override </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">createLogic</span><span>(</span><span style="font-style:italic;color:#fc9354;">inheritedAttributes</span><span>: </span><span style="color:#fbe3bf;">Attributes</span><span>): </span><span style="color:#fbe3bf;">GraphStageLogic </span><span style="color:#ff5e5e;">= </span><span>{  
+</span><span>    </span><span style="color:#ff5e5e;">new </span><span style="color:#fbe3bf;">GraphStageLogic</span><span>(shape) {  
+</span><span>      </span><span style="font-style:italic;color:#fbdfb5;">var </span><span style="color:#e9fdac;">buffer</span><span>: </span><span style="color:#fbe3bf;">ByteString </span><span style="color:#ff5e5e;">= </span><span style="color:#ecfdb9;">ByteString</span><span>.empty  
+</span><span>      </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">queue</span><span>: </span><span style="color:#fbe3bf;">mutable</span><span>.</span><span style="color:#fbe3bf;">Queue</span><span>[</span><span style="color:#fbe3bf;">ByteString</span><span>] </span><span style="color:#ff5e5e;">=</span><span> mutable.</span><span style="color:#ecfdb9;">Queue</span><span>()  
+</span><span>  
+</span><span>      </span><span style="color:#ff5e5e;">override </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">postStop</span><span>(): </span><span style="font-style:italic;color:#fbdfb5;">Unit </span><span style="color:#ff5e5e;">= </span><span>{  
+</span><span>        </span><span style="color:#6d6d6d;">// wipe buffer and queue  
+</span><span>        buffer </span><span style="color:#ff5e5e;">= </span><span style="color:#ecfdb9;">ByteString</span><span>.empty  
+</span><span>        queue.clear()  
+</span><span>        </span><span style="color:#e9fdac;">super</span><span>.postStop()  
+</span><span>      }  
+</span><span>  
+</span><span>      </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">continueHandler</span><span>: </span><span style="color:#fbe3bf;">InHandler </span><span style="color:#ff5e5e;">with </span><span style="color:#fbe3bf;">OutHandler </span><span style="color:#ff5e5e;">= new </span><span style="color:#fbe3bf;">InHandler </span><span style="color:#ff5e5e;">with </span><span style="color:#fbe3bf;">OutHandler </span><span>{  
+</span><span>        </span><span style="color:#ff5e5e;">override </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">onPush</span><span>(): </span><span style="font-style:italic;color:#fbdfb5;">Unit </span><span style="color:#ff5e5e;">= </span><span>{  
+</span><span>          </span><span style="color:#6d6d6d;">// directly pushing element downstream  
+</span><span>          push(out, grab(in))  
+</span><span>        }  
+</span><span>  
+</span><span>        </span><span style="color:#ff5e5e;">override </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">onPull</span><span>(): </span><span style="font-style:italic;color:#fbdfb5;">Unit </span><span style="color:#ff5e5e;">= </span><span>{  
+</span><span>          </span><span style="color:#ff5e5e;">if </span><span>(queue.nonEmpty) {  
+</span><span>            </span><span style="color:#6d6d6d;">// the queue contains elements, pushing the next one downstream  
+</span><span>            push(out, queue.dequeue())  
+</span><span>          } </span><span style="color:#ff5e5e;">else </span><span>{  
+</span><span>            </span><span style="color:#ff5e5e;">if </span><span>(isClosed(in)) {  
+</span><span>              </span><span style="color:#6d6d6d;">// the queue is empty and the upstream has closed, the stage should be considered completed  
+</span><span>              completeStage()  
+</span><span>            } </span><span style="color:#ff5e5e;">else if </span><span>(hasBeenPulled(in)) {  
+</span><span>              </span><span style="color:#6d6d6d;">// upstream was already pulled, do nothing and wait for push  
+</span><span>            } </span><span style="color:#ff5e5e;">else </span><span>{  
+</span><span>              </span><span style="color:#6d6d6d;">// pulling from upstream  
+</span><span>              pull(in)  
+</span><span>            }  
+</span><span>          }  
+</span><span>        }  
+</span><span>  
+</span><span>        </span><span style="color:#ff5e5e;">override </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">onUpstreamFinish</span><span>(): </span><span style="font-style:italic;color:#fbdfb5;">Unit </span><span style="color:#ff5e5e;">= </span><span>{  
+</span><span>          </span><span style="color:#ff5e5e;">if </span><span>(queue.isEmpty) {  
+</span><span>            </span><span style="color:#6d6d6d;">// upstream just closed and queue is empty, stage should be considered completed  
+</span><span>            completeStage()  
+</span><span>          } </span><span style="color:#ff5e5e;">else </span><span>{  
+</span><span>            </span><span style="color:#6d6d6d;">// upstream just closed but queue still contains elements, emit rest of elements and complete  
+</span><span>            emitMultiple(out, queue.iterator, () </span><span style="font-style:italic;color:#fbdfb5;">=&gt;</span><span> completeStage())  
+</span><span>          }  
+</span><span>        }  
+</span><span>      }  
+</span><span>  
+</span><span>      </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">bufferHandler</span><span>: </span><span style="color:#fbe3bf;">InHandler </span><span style="color:#ff5e5e;">with </span><span style="color:#fbe3bf;">OutHandler </span><span style="color:#ff5e5e;">= new </span><span style="color:#fbe3bf;">InHandler </span><span style="color:#ff5e5e;">with </span><span style="color:#fbe3bf;">OutHandler </span><span>{  
+</span><span>        </span><span style="color:#ff5e5e;">override </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">onPush</span><span>(): </span><span style="font-style:italic;color:#fbdfb5;">Unit </span><span style="color:#ff5e5e;">= </span><span>{  
+</span><span>          </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">elem </span><span style="color:#ff5e5e;">=</span><span> grab(in)  
+</span><span>          </span><span style="color:#ff5e5e;">if </span><span>(buffer.size + elem.size &gt;= byteLimit) {  
+</span><span>            </span><span style="color:#6d6d6d;">// adding the incoming bytes to the buffer overflows the byte-limit  
+</span><span>            </span><span style="color:#6d6d6d;">// set handler to the continueHandler for upcoming messages            setHandlers(in, out, continueHandler)  
+</span><span>  
+</span><span>            </span><span style="color:#6d6d6d;">// add bytes to buffer but prevent it from becoming larger than the limit  
+</span><span>            </span><span style="font-style:italic;color:#fbdfb5;">val </span><span>(</span><span style="color:#e9fdac;">toBuffer</span><span>, </span><span style="color:#e9fdac;">overflow</span><span>) </span><span style="color:#ff5e5e;">=</span><span> elem.splitAt(byteLimit - buffer.size)  
+</span><span>            buffer ++= toBuffer  
+</span><span>  
+</span><span>            </span><span style="color:#ff5e5e;">if </span><span>(isClosed(in) || hasBeenPulled(in)) {  
+</span><span>              </span><span style="color:#6d6d6d;">// input port is closed or has already been pulled, add the buffer to the queue  
+</span><span>              queue.enqueue(buffer)  
+</span><span>            } </span><span style="color:#ff5e5e;">else </span><span>{  
+</span><span>              </span><span style="color:#6d6d6d;">// push buffer downstream  
+</span><span>              </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">toPush </span><span style="color:#ff5e5e;">=</span><span> buffer  
+</span><span>              push(out, toPush)  
+</span><span>            }  
+</span><span>  
+</span><span>            </span><span style="color:#6d6d6d;">// clear buffer variable as it is no longer useful  
+</span><span>            buffer </span><span style="color:#ff5e5e;">= </span><span style="color:#ff8942;">null  
+</span><span>  
+</span><span>            </span><span style="color:#ff5e5e;">if </span><span>(!overflow.isEmpty) {  
+</span><span>              </span><span style="color:#6d6d6d;">// add the overflowing bytes to the queue  
+</span><span>              queue.enqueue(overflow)  
+</span><span>            }  
+</span><span>  
+</span><span>          } </span><span style="color:#ff5e5e;">else </span><span>{  
+</span><span>            </span><span style="color:#6d6d6d;">// add all incoming bytes to the buffer, it still has enough capacity, then pull upstream for more  
+</span><span>            buffer ++= elem  
+</span><span>            pull(in)  
+</span><span>          }  
+</span><span>        }  
+</span><span>  
+</span><span>        </span><span style="color:#ff5e5e;">override </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">onPull</span><span>(): </span><span style="font-style:italic;color:#fbdfb5;">Unit </span><span style="color:#ff5e5e;">= </span><span>{  
+</span><span>          </span><span style="color:#ff5e5e;">if </span><span>(!hasBeenPulled(in)) {  
+</span><span>            </span><span style="color:#6d6d6d;">// upstream has not yet been pulled, pulling it now  
+</span><span>            pull(in)  
+</span><span>          }  
+</span><span>        }  
+</span><span>  
+</span><span>        </span><span style="color:#ff5e5e;">override </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">onUpstreamFinish</span><span>(): </span><span style="font-style:italic;color:#fbdfb5;">Unit </span><span style="color:#ff5e5e;">= </span><span>{  
+</span><span>          </span><span style="color:#6d6d6d;">// upstream has closed, emitting buffer and complete stage afterwards  
+</span><span>          emit(out, buffer, () </span><span style="font-style:italic;color:#fbdfb5;">=&gt;</span><span> completeStage())  
+</span><span>        }  
+</span><span>      }  
+</span><span>  
+</span><span>      </span><span style="color:#6d6d6d;">// use the bufferHandler as the initial handler  
+</span><span>      setHandlers(in, out, bufferHandler)  
+</span><span>    }  
+</span><span>  }  
+</span><span>}
+</span></code></pre>
+<p>Confused? Think of this graph stage as follows:</p>
+<p>Imagine you have a pipe where packets (<code>ByteString</code>) run through. A <code>ByteString</code> is basically a byte array. The packets can be of differing sizes; sometimes there is just one packet, sometimes there are thousands.</p>
+<p>The graph stage will start in “buffer mode” (see <code>bufferHandler</code>) where it will grab incoming packets and keep them in a buffer until either (a) the buffer is full or (b) no more packets are coming in. If a packet is too large to fit the buffer, the packet is sliced, and only the first fitting slice is added to the buffer.</p>
+<p>Subsequently, the whole buffer is sent downstream to the next stage <em>as a single packet</em>; if a packet was sliced, the second slice is sent as the second packet. From here on, the stage switches into “continue mode” (see <code>continueHandler</code>) where it will simply pass on all packets as they are coming in.</p>
+<h3 id="essential-filter">Essential Filter</h3>
+<p>Now you can create a custom <code>EssentialFilter</code> where we will return an <code>EssentialAction</code>. The <code>EssentialAction</code> is a method that turns an incoming <code>RequestHeader</code> into an <code>Accumulator[ByteString, Result]</code>.</p>
+<p>See below for a starting point for such a Filter. The exact contents of the <code>handle</code> method are left up to you and your use case. For a specific implementation, you may take a look at the <a href="https://github.com/hertg/play-rfc6750/blob/main/app/org/example/Rfc6750Filter.scala">Rfc6750Filter</a>, which was published on <a href="https://github.com/hertg/play-rfc6750">Github</a>.</p>
+<aside class="callout" >
+	<div class="icon">
+		<svg class="feather-inline" role="img" aria-hidden="true">
+			
+			
+			<use href="https://hertig.blog/vendor/feather-sprite.svg#alert-triangle" />
+			
+		</svg>
+	</div>
+
+	
+	<div class="content">
+		Make sure that the logic you implement to extract information from the raw body is <em>safe</em>, and expect it to be of any type and form (anyone can send any raw data to your server if it is public). Protect your code from malicious injections, especially when you are dealing with raw bytes.
+	</div>
+</aside><pre data-lang="scala" style="background-color:#191919;color:#f8f8f2;" class="language-scala "><code class="language-scala" data-lang="scala"><span style="color:#6d6d6d;">// ExampleFilter.scala
+</span><span style="color:#ff5e5e;">package </span><span>org.example  
+</span><span>  
+</span><span style="color:#ff5e5e;">import</span><span> org.apache.pekko.NotUsed  
+</span><span style="color:#ff5e5e;">import</span><span> org.apache.pekko.stream.Materializer  
+</span><span style="color:#ff5e5e;">import</span><span> org.apache.pekko.stream.scaladsl.{Flow, Keep, Sink, Source}  
+</span><span style="color:#ff5e5e;">import</span><span> org.apache.pekko.util.ByteString  
+</span><span style="color:#ff5e5e;">import</span><span> play.api.Logging  
+</span><span style="color:#ff5e5e;">import</span><span> play.api.libs.streams.Accumulator  
+</span><span style="color:#ff5e5e;">import</span><span> play.api.mvc.{EssentialAction, EssentialFilter, RequestHeader, Result}  
+</span><span>  
+</span><span style="color:#ff5e5e;">import</span><span> javax.inject.Inject  
+</span><span style="color:#ff5e5e;">import</span><span> scala.concurrent.{ExecutionContext, Future}  
+</span><span>  
+</span><span style="font-style:italic;color:#fbdfb5;">class</span><span style="text-decoration:underline;color:#8cdaff;"> ExampleFilter </span><span>@</span><span style="color:#e9fdac;">Inject</span><span>()(</span><span style="color:#ff5e5e;">implicit </span><span style="font-style:italic;color:#fc9354;">mat</span><span>: </span><span style="color:#fbe3bf;">Materializer</span><span>, </span><span style="font-style:italic;color:#fc9354;">ec</span><span>: </span><span style="color:#fbe3bf;">ExecutionContext</span><span>) </span><span style="color:#ff5e5e;">extends </span><span style="text-decoration:underline;font-style:italic;color:#8cdaff;">EssentialFilter </span><span style="color:#ff5e5e;">with </span><span style="text-decoration:underline;font-style:italic;color:#8cdaff;">Logging </span><span>{  
+</span><span>  
+</span><span>  </span><span style="color:#ff5e5e;">private final </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">BUFFER_SIZE</span><span>: </span><span style="font-style:italic;color:#fbdfb5;">Int </span><span style="color:#ff5e5e;">= </span><span style="color:#fdb082;">10240  
+</span><span>  
+</span><span>  </span><span style="color:#ff5e5e;">override </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">apply</span><span>(</span><span style="font-style:italic;color:#fc9354;">next</span><span>: </span><span style="color:#fbe3bf;">EssentialAction</span><span>): </span><span style="color:#fbe3bf;">EssentialAction </span><span style="color:#ff5e5e;">= </span><span>{  
+</span><span>    </span><span style="color:#ecfdb9;">EssentialAction</span><span>(</span><span style="font-style:italic;color:#fc9354;">request </span><span style="font-style:italic;color:#fbdfb5;">=&gt;  
+</span><span>      </span><span style="color:#ecfdb9;">Accumulator</span><span>(  
+</span><span>        </span><span style="color:#ecfdb9;">Flow</span><span>[</span><span style="color:#fbe3bf;">ByteString</span><span>]  
+</span><span>          </span><span style="color:#6d6d6d;">// buffer the first N bytes into memory  
+</span><span>          .via(</span><span style="color:#ff5e5e;">new </span><span style="color:#fbe3bf;">BufferFirstBytes</span><span>(</span><span style="color:#ecfdb9;">BUFFER_SIZE</span><span>))  
+</span><span>          </span><span style="color:#6d6d6d;">// split the first element (buffer) from the rest of the stream  
+</span><span>          .prefixAndTail(</span><span style="color:#fdb082;">1</span><span>)  
+</span><span>          .mapAsync(</span><span style="color:#fdb082;">1</span><span>)(handle(request, next))  
+</span><span>          .recover(</span><span style="color:#ff5e5e;">???</span><span>) </span><span style="color:#6d6d6d;">// todo: if you want to catch exceptions that may be thrown in handle()  
+</span><span>          .toMat(</span><span style="color:#ecfdb9;">Sink</span><span>.head)(</span><span style="color:#ecfdb9;">Keep</span><span>.right)  
+</span><span>      ).recover(</span><span style="color:#ff5e5e;">???</span><span>) </span><span style="color:#6d6d6d;">// todo: if you want to catch exceptions that may be thrown anywhere else (e.g. subsequent filters, controllers, etc)  
+</span><span>    )  
+</span><span>  }  
+</span><span>  
+</span><span>  </span><span style="color:#ff5e5e;">private </span><span style="font-style:italic;color:#fbdfb5;">def </span><span style="color:#8cdaff;">handle</span><span>(</span><span style="font-style:italic;color:#fc9354;">request</span><span>: </span><span style="color:#fbe3bf;">RequestHeader</span><span>, </span><span style="font-style:italic;color:#fc9354;">next</span><span>: </span><span style="color:#fbe3bf;">EssentialAction</span><span>): ((</span><span style="color:#fbe3bf;">Seq</span><span>[</span><span style="color:#fbe3bf;">ByteString</span><span>], </span><span style="color:#fbe3bf;">Source</span><span>[</span><span style="color:#fbe3bf;">ByteString</span><span>, </span><span style="color:#fbe3bf;">NotUsed</span><span>])) </span><span style="color:#ff5e5e;">=&gt; </span><span style="color:#fbe3bf;">Future</span><span>[</span><span style="color:#fbe3bf;">Result</span><span>] </span><span style="color:#ff5e5e;">= </span><span>{  
+</span><span>    </span><span style="color:#ff5e5e;">case </span><span>(</span><span style="color:#ecfdb9;">Seq</span><span>(</span><span style="font-style:italic;color:#fc9354;">firstElement</span><span>), </span><span style="font-style:italic;color:#fc9354;">rest</span><span>) </span><span style="font-style:italic;color:#fbdfb5;">=&gt;  
+</span><span>      </span><span style="color:#6d6d6d;">// got first element (firstElement: ByteString)  
+</span><span>  
+</span><span>      </span><span style="color:#6d6d6d;">// todo: extract information from raw body (firstElement)  
+</span><span>      </span><span style="color:#6d6d6d;">//  e.g. val token = extractFromByteString(firstElement)  
+</span><span>  
+</span><span>      </span><span style="color:#6d6d6d;">// todo: update request as required  
+</span><span>      </span><span style="color:#6d6d6d;">//  e.g. val req = request.addAttr(...)  
+</span><span>      </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">req </span><span style="color:#ff5e5e;">=</span><span> request  
+</span><span>  
+</span><span>      </span><span style="color:#6d6d6d;">// create a sink with the updated request  
+</span><span>      </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">sink </span><span style="color:#ff5e5e;">=</span><span> next(req).toSink  
+</span><span>  
+</span><span>      </span><span style="color:#6d6d6d;">// create a new source of the complete stream (first element + unconsumed source)  
+</span><span>      </span><span style="font-style:italic;color:#fbdfb5;">val </span><span style="color:#e9fdac;">source </span><span style="color:#ff5e5e;">= </span><span style="color:#ecfdb9;">Source</span><span>.single(firstElement).concat(rest)  
+</span><span>  
+</span><span>      </span><span style="color:#6d6d6d;">// run the source to the newly created sink  
+</span><span>      source.runWith(sink)  
+</span><span>  
+</span><span>    </span><span style="color:#ff5e5e;">case </span><span>(</span><span style="color:#ecfdb9;">Seq</span><span>(), </span><span style="color:#e9fdac;">_</span><span>) </span><span style="font-style:italic;color:#fbdfb5;">=&gt;  
+</span><span>      </span><span style="color:#ecfdb9;">Future</span><span>.failed(</span><span style="color:#ff5e5e;">new </span><span style="color:#fbe3bf;">RuntimeException</span><span>(</span><span style="color:#ffffff;">&quot;</span><span style="color:#fbe3bf;">Empty stream</span><span style="color:#ffffff;">&quot;</span><span>))  
+</span><span>  }  
+</span><span>  
+</span><span>}
+</span></code></pre>
+<p>This creates a Flow that routes incoming packets through the <code>BufferFirstBytes</code> stage we defined earlier. This guarantees us that we will receive the first <code>10240</code> bytes as a single packet, and we can be sure that the first packet will not exceed this size.</p>
+<p>In the <code>handle</code> method, we get this first packet as <code>firstElement</code> and can extract anything we may want from those raw bytes. Once that is done, we can update the <code>RequestHeader</code> that will be passed downstream to the next Filter or Action. Then we create a new <code>Sink</code> for calling the next action with the updated <code>RequestHeader</code>, and a new <code>Source</code> is created that puts the first packet
+back with all the upcoming packets. Then we connect that source to the sink and just let the packets flow through from here on.</p>
+<h3 id="enable-the-filter">Enable the Filter</h3>
+<p>All that's left to do is enable that filter in your configuration.</p>
+<pre data-lang="yaml" style="background-color:#191919;color:#f8f8f2;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#6d6d6d;"># application.conf
+</span><span style="color:#fbe3bf;">play.filters.enabled += org.example.ExampleFilter
+</span></code></pre>
+<h2 id="performance">Performance</h2>
+<p>The solution shown here is <strong>fast</strong> and has a very <strong>low overhead</strong>. I did a few tests, and enabling the Filter seems to hardly have any impact on performance.</p>
+<figure>
+  <img src="measurement.png" alt="12191 total requests, a decrease of 28. 96.29 requests per second, a decrease of 0.34, average response time of 18ms, an increase of 1ms" />
+  <figcaption>
+  Performance when using the Filter, compared to it being disabled.
+  </figcaption>
+</figure>
+<p>This is using Postman with a fixed load, 100 virtual users (VU) and running for 2 minutes. All requests sent are POST requests, where the values in the body are randomly generated per request.</p>
+<figure>
+<table>
+  <thead>
+    <tr>
+      <th>Filter</th>
+      <th>Total Requests</th>
+      <th>Requests (per sec.)</th>
+      <th>Resp. Time (Avg ms)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Disabled</td>
+      <td>12219</td>
+      <td>96.63</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <td>Enabled</td>
+      <td>12191</td>
+      <td>96.43</td>
+      <td>18</td>
+    </tr>
+  </tbody>
+</table>
+<figcaption>Measurements from performance tests, with and without the Filter being enabled</figcaption>
+</figure>
+<h2 id="final-notes">Final notes</h2>
+<p>I hope that I was able to offer a solid and minimalistic baseline for you to extract information from the request body in a Play Filter. I want to emphasize that this specific solution does work best for extracting potentially "loose" information. You should not take the first element <code>ByteString</code>  and try to parse it into a specific structure (e.g., <code>Json.parse(...)</code>). The nature of the buffer that is put in front may lead to data being cut off, and so the first element may only contain partial structures.</p>
+<p>Above, I stated that my use case was to extract access tokens from incoming requests, and pass them on via request <code>attrs()</code>. If you are intending to do the same, you can look up what I came up with. Please note that this is a sample, and I am not intending to keep this repository updated at this time. I still welcome any inquiries or suggestions, though.</p>
+<p><a href="https://github.com/hertg/play-rfc6750">https://github.com/hertg/play-rfc6750</a></p>
+<p>Even if your use case is not the same, you may still find it useful to look at this example, since it contains a few additional features that I have not mentioned in this blog post. For example, you could only extract information from the body when necessary or create a simple exception handling system that lets you throw exceptions in the handler and turn them into HTTP responses.</p>
+
+
+
+
+    <div id="references">
+    
+    
+    </div>
+
+
+<aside class="license">
+    <p>
+        Accessing the request body in Play Framework Filters &copy; 2024 by 
+        
+        Michael Hertig
+        
+        is licensed under 
+        
+            <a href="https:&#x2F;&#x2F;creativecommons.org&#x2F;licenses&#x2F;by-sa&#x2F;4.0&#x2F;" target="_blank">CC BY-SA 4.0</a>.
+        
+    </p>
+
+    
+</aside>
+
+
+
+
+  </main>
+
+  <footer>
+    <div class="links">
+      <a rel="me" href="https://infosec.exchange/@hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#at-sign" />
+</svg>
+
+        Fediverse
+      </a>
+      <a href="https://codeberg.org/hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#git-pull-request" />
+</svg>
+
+        Codeberg
+      </a>
+      <a href="https://github.com/hertg">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#github" />
+</svg>
+
+        Github
+      </a>
+      <a href="https://hertig.blog/atom.xml">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#rss" />
+</svg>
+
+        RSS
+      </a>
+      <a href="https://hertig.blog/about/#get-in-touch">
+        
+<svg class="feather " role="img" aria-hidden="true">
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#mail" />
+</svg>
+
+        Contact
+      </a>
+    </div>
+    
+  </footer>
+
+  <a href="#" id="back-to-top" class="hidden" title="Back to top">
+    
+<svg class="feather " role="img" >
+    
+    <use href="https://hertig.blog/vendor/feather-sprite.svg#arrow-up" />
+</svg>
+
+  </a>
+</body>
+</html>
